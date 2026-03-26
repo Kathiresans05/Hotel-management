@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+  --border: #E2E8F0;
+  --text-primary: #0F172A;
+  --text-secondary: #64748B;
+  --sidebar-bg: #1E293B;
+  --sidebar-text: #FFFFFF;
+}
+
+.dark {
+  --background: #0B0E14;
+  --surface: #151921;
+  --border: #222B38;
+  --text-primary: #F8FAFC;
+  --text-secondary: #94A3B8;
+  --sidebar-bg: #0B0E14;
+  --sidebar-text: #F8FAFC;
+}
+
+@layer base {
+  body {
+    @apply font-inter text-text-primary bg-background antialiased select-none transition-colors duration-300;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-poppins font-semibold tracking-tight;
+  }
+}
+
+.glass {
+  @apply bg-surface backdrop-blur-md border border-white/20 transition-all;
+}
+.dark .glass {
+  @apply bg-surface border-white/5;
+}
+
+.card {
+  @apply bg-surface rounded-card border border-border transition-all;
+}
+
+.btn-primary {
+  @apply bg-primary text-white px-4 py-2 rounded-lg hover:bg-slate-800 transition-all duration-200 active:scale-95;
+}
+
+.btn-accent {
+  @apply bg-accent text-white px-4 py-2 rounded-lg hover:bg-accent-hover transition-all duration-200 active:scale-95;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(249, 115, 22, 0.4);
+}
+
+.thin-scrollbar::-webkit-scrollbar {
+  width: 3px;
+}
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.05);
+}
+.thin-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(249, 115, 22, 0.2);
+}
+
+/* Global input placeholder and autofill styles */
+::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text-primary) !important;
+  -webkit-box-shadow: 0 0 0px 1000px var(--surface) inset !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
