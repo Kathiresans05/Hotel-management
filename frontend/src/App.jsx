@@ -16,6 +16,12 @@ import Login from './pages/Login';
 import VerifyOTP from './pages/VerifyOTP';
 import ReceptionDashboard from './pages/ReceptionDashboard';
 import SubAdminDashboard from './pages/SubAdminDashboard';
+import Services from './pages/Services';
+import Attendance from './pages/Attendance';
+import Payroll from './pages/Payroll';
+import Payments from './pages/Payments';
+import Expenses from './pages/Expenses';
+import Notifications from './pages/Notifications';
 
 const MaintenancePlaceholder = ({ title }) => (
   <div className="p-8 max-w-2xl animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -77,10 +83,21 @@ function App() {
 
         <Route path="/sub-admin" element={<AdminLayout />}>
           <Route index element={<Navigate to="dashboard" replace />} />
-          <Route path="dashboard" element={<SubAdminDashboard />} />
-          <Route path="rooms" element={<Rooms />} />
-          <Route path="bookings" element={<Bookings />} />
-          <Route path="customers" element={<Customers />} />
+          <Route path="dashboard"     element={<SubAdminDashboard />} />
+          <Route path="analytics"     element={<Analytics />} />
+          <Route path="notifications" element={<Notifications />} />
+          <Route path="rooms"         element={<Rooms />} />
+          <Route path="bookings"      element={<Bookings />} />
+          <Route path="check-in"      element={<CheckIn />} />
+          <Route path="customers"     element={<Customers />} />
+          <Route path="services"      element={<Services />} />
+          <Route path="staff"         element={<Staff />} />
+          <Route path="attendance"    element={<Attendance />} />
+          <Route path="payroll"       element={<Payroll />} />
+          <Route path="billing"       element={<Billing />} />
+          <Route path="payments"      element={<Payments />} />
+          <Route path="expenses"      element={<Expenses />} />
+          <Route path="reports"       element={<Reports />} />
         </Route>
 
         <Route path="/reception" element={<AdminLayout />}>

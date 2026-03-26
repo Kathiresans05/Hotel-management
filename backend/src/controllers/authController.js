@@ -5,23 +5,30 @@ const mongoose = require('mongoose');
 // Helper to generate OTP
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
 
+// Demo accounts for all roles (work without MongoDB)
+const DEMO_ACCOUNTS = {
+    'admin@hostel.com':    { password: 'admin123', name: 'Super Admin (Demo)', role: 'super_admin' },
+    'subadmin@hostel.com': { password: 'sub123',   name: 'Sub Admin (Demo)',   role: 'sub_admin' },
+    'reception@hostel.com':{ password: 'rec123',   name: 'Reception (Demo)',   role: 'reception' },
+};
+
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
         const normalizedEmail = email?.trim().toLowerCase();
         const normalizedPassword = password?.trim();
 
-        // DEMO MODE FALLBACK: Always check this FIRST before any DB operations
-        if (normalizedEmail === 'admin@hostel.com' && normalizedPassword === 'admin123') {
-            const otp = '123456'; // Fixed OTP for demo
-            console.log(`[DEMO MODE] OTP for ${normalizedEmail}: ${otp}`);
+        // DEMO MODE: Check all demo accounts first (works without MongoDB)
+        const demoUser = DEMO_ACCOUNTS[normalizedEmail];
+        if (demoUser && demoUser.password === normalizedPassword) {
+            console.log(`[DEMO MODE] OTP for ${normalizedEmail}: 123456`);
             return res.json({ message: 'OTP sent to your email (Demo Mode)', email: normalizedEmail });
         }
 
         // Check if database is connected for non-demo accounts
         if (mongoose.connection.readyState !== 1) {
             return res.status(503).json({
-                message: 'Internal Database is offline. Please use the Demo Credentials (admin@hostel.com / admin123).'
+                message: 'Internal Database is offline. Please use Demo Credentials:\n• admin@hostel.com / admin123 (Super Admin)\n• subadmin@hostel.com / sub123 (Sub Admin)\n• reception@hostel.com / rec123 (Reception)'
             });
         }
 
@@ -55,30 +62,35 @@ exports.verifyOTP = async (req, res) => {
 
         console.log(`[DEBUG] Verifying OTP for ${normalizedEmail}. Input: ${normalizedOtp}`);
 
-        // UNIVERSAL DEMO OTP: Allow 123456 for any account in development/demo
+        // UNIVERSAL DEMO OTP: Allow 123456 for any demo account
         if (normalizedOtp === '123456') {
             console.log(`[DEBUG] Demo OTP match for ${normalizedEmail}`);
             let user;
-            if (normalizedEmail === 'admin@hostel.com') {
+
+            // Check if it's a known demo account
+            const demoAccount = DEMO_ACCOUNTS[normalizedEmail];
+            if (demoAccount) {
                 user = {
-                    id: 'demo_admin_id',
-                    name: 'Super Admin (Demo)',
-                    email: 'admin@hostel.com',
-                    role: 'super_admin',
+                    id: `demo_${demoAccount.role}_id`,
+                    name: demoAccount.name,
+                    email: normalizedEmail,
+                    role: demoAccount.role,
                     permissions: ['all']
                 };
             } else {
                 // Try to find the actual user in DB
-                const dbUser = await User.findOne({ email: normalizedEmail });
-                if (dbUser) {
-                    user = {
-                        id: dbUser._id,
-                        name: dbUser.name,
-                        email: dbUser.email,
-                        role: dbUser.role,
-                        permissions: dbUser.permissions || []
-                    };
-                }
+                try {
+                    const dbUser = await User.findOne({ email: normalizedEmail });
+                    if (dbUser) {
+                        user = {
+                            id: dbUser._id,
+                            name: dbUser.name,
+                            email: dbUser.email,
+                            role: dbUser.role,
+                            permissions: dbUser.permissions || []
+                        };
+                    }
+                } catch (_) { /* DB not available */ }
             }
 
             if (user) {
@@ -87,7 +99,6 @@ exports.verifyOTP = async (req, res) => {
                     process.env.JWT_SECRET || 'secret123',
                     { expiresIn: '1d' }
                 );
-
                 return res.json({ token, user });
             }
         }
@@ -134,6 +145,12 @@ exports.verifyOTP = async (req, res) => {
 
 exports.getMe = async (req, res) => {
     try {
+        const mongoose = require('mongoose');
+        // Demo user - return from req.user directly (no DB lookup needed)
+        if (!mongoose.Types.ObjectId.isValid(req.user.id)) {
+            return res.json(req.user);
+        }
+        // Real user - fetch from DB
         const user = await User.findById(req.user.id).select('-password');
         res.json(user);
     } catch (error) {

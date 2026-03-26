@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
+import SubAdminSidebar from '../components/SubAdminSidebar';
 import TopNavbar from '../components/TopNavbar';
 import { cn } from '../utils/cn';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 
 const AdminLayout = () => {
   const { isDarkMode } = useTheme();
+  const { user } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 1024);
 
-  // Close sidebar on mobile when navigating
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
+  const isSubAdmin = user?.role === 'sub_admin';
 
   return (
     <div className={cn(
@@ -25,12 +29,15 @@ const AdminLayout = () => {
         />
       )}
 
-      {/* Sidebar - Position fixed for mobile drawer, relative for desktop */}
+      {/* Sidebar */}
       <div className={cn(
         "fixed inset-y-0 left-0 z-50 transition-all duration-300 transform lg:relative lg:translate-x-0 h-screen shrink-0",
         isSidebarOpen ? "translate-x-0 w-64" : "-translate-x-full lg:translate-x-0 w-20"
       )}>
-        <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+        {isSubAdmin
+          ? <SubAdminSidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+          : <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+        }
       </div>
       
       {/* Main Content Area */}
