@@ -19,13 +19,15 @@ import {
 import PageHeader from '../components/PageHeader';
 import KPIStatCard from '../components/KPIStatCard';
 import { cn } from '../utils/cn';
+import { useLanguage } from '../context/LanguageContext';
 
 const Finance = () => {
+  const { t } = useLanguage();
   const accountStats = [
-    { title: 'Net Balance', value: '$42,350.00', trend: '+8.4%', trendType: 'up', icon: Wallet, colorClass: 'bg-accent/10 text-accent' },
-    { title: 'Total Revenue', value: '$128,400.00', trend: '+12.5%', trendType: 'up', icon: DollarSign, colorClass: 'bg-success/10 text-success' },
-    { title: 'Total Expenses', value: '$86,050.00', trend: '+2.1%', trendType: 'down', icon: PieChartIcon, colorClass: 'bg-danger/10 text-danger' },
-    { title: 'Pending Payments', value: '$3,120.00', trend: '-15%', trendType: 'up', icon: Clock, colorClass: 'bg-warning/10 text-warning' },
+    { title: t('NET_BALANCE'), value: '$42,350.00', trend: '+8.4%', trendType: 'up', icon: Wallet, colorClass: 'bg-accent/10 text-accent' },
+    { title: t('TOTAL_REVENUE'), value: '$128,400.00', trend: '+12.5%', trendType: 'up', icon: DollarSign, colorClass: 'bg-success/10 text-success' },
+    { title: t('TOTAL_EXPENSES'), value: '$86,050.00', trend: '+2.1%', trendType: 'down', icon: PieChartIcon, colorClass: 'bg-danger/10 text-danger' },
+    { title: t('PENDING_PAYMENTS'), value: '$3,120.00', trend: '-15%', trendType: 'up', icon: Clock, colorClass: 'bg-warning/10 text-warning' },
   ];
 
   const transactions = [
@@ -39,17 +41,17 @@ const Finance = () => {
   return (
     <div className="animate-in fade-in duration-500">
       <PageHeader 
-        title="Finance & Accounting" 
-        subtitle="Track revenue movement, payment methods and transaction history."
+        title={t('FINANCE_ACCOUNTING')} 
+        subtitle={t('FINANCE_DESC')}
         actions={
           <div className="flex items-center space-x-3">
             <button className="flex items-center px-4 py-2 border border-border bg-surface rounded-button text-sm font-medium hover:bg-background transition-all">
               <Download className="w-4 h-4 mr-2" />
-              Statement
+              {t('STATEMENT')}
             </button>
             <button className="flex items-center px-4 py-2 bg-success text-white rounded-button text-sm font-medium hover:bg-success-dark transition-all">
               <Plus className="w-4 h-4 mr-2" />
-              Record Expense
+              {t('RECORD_EXPENSE')}
             </button>
           </div>
         }
@@ -71,7 +73,7 @@ const Finance = () => {
                 <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" />
                 <input 
                   type="text" 
-                  placeholder="Filter transactions..." 
+                  placeholder={t('FILTER_TRANSACTIONS')} 
                   className="w-full pl-10 pr-4 py-2.5 bg-background border-none rounded-lg text-sm outline-none"
                 />
               </div>
@@ -86,11 +88,11 @@ const Finance = () => {
               <table className="w-full text-left">
                 <thead>
                   <tr className="bg-background">
-                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">Transaction ID</th>
-                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">Details</th>
-                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">Amount</th>
-                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">Status</th>
-                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase text-right">Action</th>
+                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">{t('TRANSACTION_ID')}</th>
+                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">{t('DETAILS')}</th>
+                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">{t('AMOUNT')}</th>
+                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">{t('STATUS')}</th>
+                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase text-right">{t('ACTION')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
@@ -125,7 +127,7 @@ const Finance = () => {
                             tx.status === 'Completed' ? "bg-success" : 
                             tx.status === 'Pending' ? "bg-warning" : "bg-danger"
                           )}></div>
-                          <span className="text-xs font-bold text-text-secondary">{tx.status}</span>
+                          <span className="text-xs font-bold text-text-secondary">{t(tx.status.toUpperCase())}</span>
                         </div>
                       </td>
                       <td className="px-6 py-4 text-right">
@@ -144,12 +146,12 @@ const Finance = () => {
         {/* Right: Payment Method Split */}
         <div className="space-y-6">
           <div className="bg-surface p-6 rounded-card border border-border">
-            <h3 className="font-bold text-lg text-text-primary mb-6">Payment Spread</h3>
+            <h3 className="font-bold text-lg text-text-primary mb-6">{t('PAYMENT_SPREAD')}</h3>
             <div className="space-y-6">
               {[
-                { name: 'Card Payments', value: 65, color: 'bg-accent' },
-                { name: 'UPI / Digital', value: 25, color: 'bg-purple' },
-                { name: 'Cash', value: 10, color: 'bg-warning' },
+                { name: t('CARD_PAYMENTS'), value: 65, color: 'bg-accent' },
+                { name: t('UPI_DIGITAL'), value: 25, color: 'bg-purple' },
+                { name: t('CASH'), value: 10, color: 'bg-warning' },
               ].map((m) => (
                 <div key={m.name}>
                   <div className="flex justify-between text-xs font-bold mb-2">
@@ -165,18 +167,18 @@ const Finance = () => {
             <div className="mt-8 pt-6 border-t border-border">
               <button className="w-full py-3 bg-primary text-white text-xs font-bold rounded-xl hover:bg-primary-dark transition-all flex items-center justify-center">
                 <FileText className="w-4 h-4 mr-2" />
-                View Reconciliation Report
+                {t('RECONCILIATION_REPORT')}
               </button>
             </div>
           </div>
 
           <div className="bg-gradient-to-br from-primary to-primary-dark p-6 rounded-card border border-white/10 text-white">
             <div className="flex items-center justify-between mb-8 opacity-60 italic text-xs">
-              <span>Forecasted Revenue</span>
+              <span>{t('FORECASTED_REVENUE')}</span>
               <TrendingUp className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest opacity-60">Estimated for April</p>
+              <p className="text-xs font-bold uppercase tracking-widest opacity-60">{t('ESTIMATED_FOR')} April</p>
               <h4 className="text-3xl font-bold mt-2">$145,200</h4>
               <p className="text-[10px] text-success font-bold mt-2 flex items-center">
                 <ArrowUpRight className="w-3 h-3 mr-1" />

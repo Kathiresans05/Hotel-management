@@ -2,20 +2,21 @@ import React, { useState } from 'react';
 import DashboardLayout from '../layouts/DashboardLayout';
 import { 
     Plus, Search, Filter, LayoutGrid, List, 
-    MoreVertical, Edit2, Trash2, Camera, MapPin
 } from 'lucide-react';
 import StatusBadge from '../components/StatusBadge';
+import { useLanguage } from '../context/LanguageContext';
 
 const dummyRooms = [
-    { id: 1, number: '101', floor: '1st', category: 'AC', type: 'Single', price: 1200, status: 'Available' },
-    { id: 2, number: '102', floor: '1st', category: 'AC', type: 'Double', price: 1800, status: 'Occupied' },
-    { id: 3, number: '103', floor: '1st', category: 'NON-AC', type: 'Single', price: 800, status: 'Cleaning' },
-    { id: 4, number: '201', floor: '2nd', category: 'AC', type: 'Family', price: 2500, status: 'Maintenance' },
-    { id: 5, number: '202', floor: '2nd', category: 'AC', type: 'Double', price: 1800, status: 'Available' },
-    { id: 6, number: '203', floor: '2nd', category: 'NON-AC', type: 'Double', price: 1200, status: 'Waiting' },
+    { id: 1, number: '101', floor: 'FLOOR_1ST', category: 'AC', type: 'SINGLE', price: 1200, status: 'Available' },
+    { id: 2, number: '102', floor: 'FLOOR_1ST', category: 'AC', type: 'DOUBLE', price: 1800, status: 'Occupied' },
+    { id: 3, number: '103', floor: 'FLOOR_1ST', category: 'NON_AC', type: 'SINGLE', price: 800, status: 'Cleaning' },
+    { id: 4, number: '201', floor: 'FLOOR_2ND', category: 'AC', type: 'FAMILY', price: 2500, status: 'Maintenance' },
+    { id: 5, number: '202', floor: 'FLOOR_2ND', category: 'AC', type: 'DOUBLE', price: 1800, status: 'Available' },
+    { id: 6, number: '203', floor: 'FLOOR_2ND', category: 'NON_AC', type: 'DOUBLE', price: 1200, status: 'Waiting' },
 ];
 
 const RoomManagement = () => {
+    const { t } = useLanguage();
     const [view, setView] = useState('grid');
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -25,12 +26,12 @@ const RoomManagement = () => {
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
-                        <h1 className="text-2xl font-bold text-textPrimary">Room Inventory</h1>
-                        <p className="text-textSecondary text-sm">Manage and monitor all rooms across all floors.</p>
+                        <h1 className="text-2xl font-bold text-textPrimary">{t('ROOM_INVENTORY')}</h1>
+                        <p className="text-textSecondary text-sm">{t('ROOM_INVENTORY_DESC')}</p>
                     </div>
                     <button className="btn-accent py-2.5 flex items-center justify-center gap-2">
                         <Plus size={18} />
-                        Add New Room
+                        {t('ADD_NEW_ROOM_BTN')}
                     </button>
                 </div>
 
@@ -41,22 +42,22 @@ const RoomManagement = () => {
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                             <input 
                                 type="text" 
-                                placeholder="Search room number..." 
+                                placeholder={t('SEARCH_ROOM_NUMBER_PLACEHOLDER')} 
                                 className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-accent/10 focus:border-accent outline-none transition-all text-sm"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
                         <select className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm font-medium outline-none">
-                            <option>All Categories</option>
+                            <option>{t('ALL_CATEGORIES')}</option>
                             <option>AC</option>
                             <option>NON-AC</option>
                         </select>
                         <select className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm font-medium outline-none">
-                            <option>All Status</option>
-                            <option>Available</option>
-                            <option>Occupied</option>
-                            <option>Maintenance</option>
+                            <option>{t('ALL_STATUS')}</option>
+                            <option>{t('AVAILABLE')}</option>
+                            <option>{t('OCCUPIED')}</option>
+                            <option>{t('MAINTENANCE')}</option>
                         </select>
                     </div>
                     <div className="flex items-center gap-2 bg-slate-50 p-1 rounded-lg border border-slate-200">
@@ -96,24 +97,24 @@ const RoomManagement = () => {
                                 <div className="p-5">
                                     <div className="flex justify-between items-start mb-4">
                                         <div>
-                                            <h3 className="text-lg font-bold text-textPrimary">Room {room.number}</h3>
+                                            <h3 className="text-lg font-bold text-textPrimary">{t('ROOM')} {room.number}</h3>
                                             <p className="text-xs text-textSecondary font-medium flex items-center gap-1 mt-1">
                                                 <MapPin size={12} />
-                                                {room.floor} Floor • {room.type}
+                                                {t(room.floor)} {t('FLOOR')} • {t(room.type)}
                                             </p>
                                         </div>
                                         <div className="text-right">
                                             <p className="text-lg font-bold text-accent">₹{room.price}</p>
-                                            <p className="text-[10px] font-bold text-slate-400 uppercase">Per Night</p>
+                                            <p className="text-[10px] font-bold text-slate-400 uppercase">{t('PER_NIGHT')}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2 pt-4 border-t border-border">
                                         <div className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${room.category === 'AC' ? 'bg-blue-50 text-blue-600' : 'bg-orange-50 text-orange-600'}`}>
-                                            {room.category}
+                                            {t(room.category)}
                                         </div>
                                         <button className="ml-auto text-xs font-bold text-slate-400 hover:text-danger hover:underline transition-all flex items-center gap-1">
                                             <Trash2 size={12} />
-                                            Delete
+                                            {t('DELETE')}
                                         </button>
                                     </div>
                                 </div>
@@ -126,12 +127,12 @@ const RoomManagement = () => {
                             <table className="w-full text-left">
                                 <thead className="bg-slate-50 border-b border-border">
                                     <tr>
-                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Room Info</th>
-                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Category</th>
-                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Type</th>
-                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Price</th>
-                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Status</th>
-                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase text-right">Actions</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">{t('ROOM_INFO')}</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">{t('CATEGORY')}</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">{t('TYPE')}</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">{t('PRICE')}</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">{t('STATUS')}</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase text-right">{t('ACTIONS')}</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-border">
@@ -143,17 +144,17 @@ const RoomManagement = () => {
                                                         {room.number}
                                                     </div>
                                                     <div>
-                                                        <p className="font-bold text-textPrimary text-sm">Room {room.number}</p>
-                                                        <p className="text-xs text-textSecondary">{room.floor} Floor</p>
+                                                        <p className="font-bold text-textPrimary text-sm">{t('ROOM')} {room.number}</p>
+                                                        <p className="text-xs text-textSecondary">{t(room.floor)} {t('FLOOR')}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4">
                                                 <span className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${room.category === 'AC' ? 'bg-blue-50 text-blue-600' : 'bg-orange-50 text-orange-600'}`}>
-                                                    {room.category}
+                                                    {t(room.category)}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 text-sm text-textSecondary font-medium">{room.type}</td>
+                                            <td className="px-6 py-4 text-sm text-textSecondary font-medium">{t(room.type)}</td>
                                             <td className="px-6 py-4 text-sm font-bold text-textPrimary">₹{room.price}</td>
                                             <td className="px-6 py-4"><StatusBadge status={room.status} /></td>
                                             <td className="px-6 py-4 text-right">

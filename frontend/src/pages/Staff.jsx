@@ -18,12 +18,14 @@ import PageHeader from '../components/PageHeader';
 import StatusBadge from '../components/StatusBadge';
 import KPIStatCard from '../components/KPIStatCard';
 import AddStaffModal from '../components/forms/AddStaffModal';
+import { useLanguage } from '../context/LanguageContext';
 
 function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
 const Staff = () => {
+  const { t } = useLanguage();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [staffList, setStaffList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -39,11 +41,11 @@ const Staff = () => {
         const formattedData = data.map(user => ({
           id: user._id.slice(-5).toUpperCase(), // Simulating short ID for UI
           name: user.name,
-          role: user.role === 'super_admin' ? 'Super Admin' : (user.role === 'sub_admin' ? 'Sub Admin' : 'Reception'),
+          role: user.role === 'super_admin' ? t('SUPER_ADMIN') : (user.role === 'sub_admin' ? t('SUB_ADMIN') : t('RECEPTIONIST')),
           email: user.email,
           phone: user.phone || 'N/A',
           status: user.status === 'active' ? 'Active' : 'Inactive',
-          shift: 'Day', // Default for now
+          shift: t('DAY'), // Default for now
           joined: new Date(user.createdAt || Date.now()).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
         }));
         
@@ -77,7 +79,7 @@ const Staff = () => {
       const staffMember = {
         id: savedUser._id.slice(-5).toUpperCase(),
         name: savedUser.name,
-        role: savedUser.role === 'super_admin' ? 'Super Admin' : (savedUser.role === 'sub_admin' ? 'Sub Admin' : 'Reception'),
+        role: savedUser.role === 'super_admin' ? t('SUPER_ADMIN') : (savedUser.role === 'sub_admin' ? t('SUB_ADMIN') : t('RECEPTIONIST')),
         email: savedUser.email,
         phone: savedUser.phone || 'N/A',
         status: 'Active',
@@ -93,24 +95,24 @@ const Staff = () => {
   };
 
   const stats = [
-    { title: 'Total Staff', value: '12', trend: '+1', trendType: 'up', icon: Users, colorClass: 'bg-accent/10 text-accent' },
-    { title: 'Receptionists', value: '4', trend: '0%', trendType: 'neutral', icon: Users, colorClass: 'bg-purple/10 text-purple' },
-    { title: 'Active Today', value: '8', trend: '85%', trendType: 'neutral', icon: Clock, colorClass: 'bg-success/10 text-success' },
-    { title: 'Open Shifts', value: '2', trend: '-1', trendType: 'up', icon: Calendar, colorClass: 'bg-warning/10 text-warning' },
+    { title: t('TOTAL_STAFF'), value: '12', trend: '+1', trendType: 'up', icon: Users, colorClass: 'bg-accent/10 text-accent' },
+    { title: t('RECEPTIONISTS'), value: '4', trend: '0%', trendType: 'neutral', icon: Users, colorClass: 'bg-purple/10 text-purple' },
+    { title: t('ACTIVE_TODAY'), value: '8', trend: '85%', trendType: 'neutral', icon: Clock, colorClass: 'bg-success/10 text-success' },
+    { title: t('OPEN_SHIFTS'), value: '2', trend: '-1', trendType: 'up', icon: Calendar, colorClass: 'bg-warning/10 text-warning' },
   ];
 
   return (
     <div className="animate-in fade-in duration-500">
       <PageHeader 
-        title="Staff Management" 
-        subtitle="Manage employee roles, performance and access permissions."
+        title={t('STAFF_MANAGEMENT')} 
+        subtitle={t('STAFF_DESC')}
         actions={
           <button 
             onClick={() => setIsModalOpen(true)}
             className="flex items-center px-4 py-2 bg-primary text-white rounded-button text-sm font-medium hover:bg-primary-dark transition-all"
           >
             <UserPlus className="w-4 h-4 mr-2" />
-            Add Employee
+            {t('ADD_EMPLOYEE')}
           </button>
         }
       />
@@ -129,13 +131,13 @@ const Staff = () => {
                 <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" />
                 <input 
                   type="text" 
-                  placeholder="Search staff by name or email..." 
+                  placeholder={t('SEARCH_STAFF_PLACEHOLDER')} 
                   className="w-full pl-10 pr-4 py-2.5 bg-surface border border-border rounded-lg text-sm outline-none"
                 />
               </div>
               <button className="flex items-center px-3 py-2 bg-surface border border-border rounded-lg text-xs font-bold text-text-secondary hover:bg-background ml-4">
                 <Filter className="w-4 h-4 mr-2" />
-                Filter
+                {t('FILTER')}
               </button>
             </div>
 
@@ -143,25 +145,25 @@ const Staff = () => {
               <table className="w-full text-left">
                 <thead>
                   <tr className="bg-background">
-                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">Employee</th>
-                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">Role</th>
-                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">Shift</th>
-                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">Joined</th>
-                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">Status</th>
-                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase text-right">Actions</th>
+                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">{t('EMPLOYEE')}</th>
+                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">{t('ROLE')}</th>
+                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">{t('SHIFT')}</th>
+                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">{t('JOINED')}</th>
+                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase">{t('STATUS')}</th>
+                    <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase text-right">{t('ACTIONS')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
                   {isLoading ? (
                     <tr>
                       <td colSpan="6" className="px-6 py-10 text-center text-text-secondary italic">
-                        Loading employee data...
+                        {t('LOADING_STAFF')}
                       </td>
                     </tr>
                   ) : staffList.length === 0 ? (
                     <tr>
                       <td colSpan="6" className="px-6 py-10 text-center text-text-secondary italic">
-                        No employees found. Add your first employee to get started!
+                        {t('NO_STAFF_FOUND')}
                       </td>
                     </tr>
                   ) : (
@@ -205,13 +207,13 @@ const Staff = () => {
 
         <div className="xl:col-span-1">
           <div className="bg-surface rounded-card border border-border p-6">
-            <h3 className="font-bold text-lg text-text-primary mb-6">Security & Roles</h3>
+            <h3 className="font-bold text-lg text-text-primary mb-6">{t('SECURITY_ROLES')}</h3>
             <div className="space-y-4">
               {[
-                { name: 'Super Admin', count: 1, color: 'bg-accent' },
-                { name: 'Sub Admin', count: 2, color: 'bg-purple' },
-                { name: 'Receptionist', count: 8, color: 'bg-success' },
-                { name: 'Housekeeping', count: 12, color: 'bg-warning' },
+                { name: t('SUPER_ADMIN'), count: 1, color: 'bg-accent' },
+                { name: t('SUB_ADMIN'), count: 2, color: 'bg-purple' },
+                { name: t('RECEPTIONIST'), count: 8, color: 'bg-success' },
+                { name: t('HOUSEKEEPING'), count: 12, color: 'bg-warning' },
               ].map((role) => (
                 <div key={role.name} className="flex items-center justify-between p-3 rounded-xl hover:bg-background transition-colors cursor-pointer group">
                   <div className="flex items-center">
@@ -226,7 +228,7 @@ const Staff = () => {
               ))}
             </div>
             <button className="w-full mt-8 py-3 bg-background text-text-secondary rounded-xl text-xs font-bold hover:bg-border transition-all">
-              Manage Permissions
+              {t('MANAGE_PERMISSIONS')}
             </button>
           </div>
         </div>

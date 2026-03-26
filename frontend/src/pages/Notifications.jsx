@@ -16,14 +16,15 @@ import {
 import PageHeader from '../components/PageHeader';
 import { useTheme } from '../context/ThemeContext';
 import { cn } from '../utils/cn';
+import { useLanguage } from '../context/LanguageContext';
 
 const initialNotifications = [
   {
     id: 1,
     type: 'booking',
-    title: 'New Booking Request',
-    message: 'John Doe has requested a Double Room for 3 nights starting April 12th.',
-    time: '2 mins ago',
+    title: 'NEW_BOOKING_REQUEST',
+    message: 'NEW_BOOKING_MSG',
+    time: '2_MINS_AGO',
     unread: true,
     icon: Calendar,
     color: 'blue'
@@ -31,9 +32,9 @@ const initialNotifications = [
   {
     id: 2,
     type: 'payment',
-    title: 'Payment Received',
-    message: 'Payment of ₹4,500 received for Booking #BK-8829 (Mike Ross).',
-    time: '15 mins ago',
+    title: 'PAYMENT_RECEIVED',
+    message: 'PAYMENT_RECEIVED_MSG',
+    time: '15_MINS_AGO',
     unread: true,
     icon: CreditCard,
     color: 'green'
@@ -41,9 +42,9 @@ const initialNotifications = [
   {
     id: 3,
     type: 'system',
-    title: 'System Maintenance',
-    message: 'Scheduled maintenance will occur tonight at 02:00 AM. Expected downtime is 30 mins.',
-    time: '1 hour ago',
+    title: 'SYSTEM_MAINTENANCE',
+    message: 'SYSTEM_MAINTENANCE_MSG',
+    time: '1_HOUR_AGO',
     unread: false,
     icon: Info,
     color: 'orange'
@@ -51,9 +52,9 @@ const initialNotifications = [
   {
     id: 4,
     type: 'staff',
-    title: 'Staff Leave Approved',
-    message: 'Leave request for Harvey Specter (Housekeeping) has been approved by Super Admin.',
-    time: '3 hours ago',
+    title: 'STAFF_LEAVE_APPROVED',
+    message: 'STAFF_LEAVE_MSG',
+    time: '3_HOURS_AGO',
     unread: false,
     icon: UserPlus,
     color: 'purple'
@@ -61,9 +62,9 @@ const initialNotifications = [
   {
     id: 5,
     type: 'alert',
-    title: 'Critical: Water Supply Issue',
-    message: 'Reported water leakage in Block B, Floor 2. Urgent maintenance required.',
-    time: '5 hours ago',
+    title: 'CRITICAL_WATER_ISSUE',
+    message: 'CRITICAL_WATER_MSG',
+    time: '5_HOURS_AGO',
     unread: true,
     icon: AlertCircle,
     color: 'red'
@@ -71,9 +72,9 @@ const initialNotifications = [
   {
     id: 6,
     type: 'booking',
-    title: 'Booking Cancelled',
-    message: 'Booking #BK-7712 (Rachel Zane) has been cancelled due to personal reasons.',
-    time: 'Yesterday',
+    title: 'BOOKING_CANCELLED',
+    message: 'BOOKING_CANCELLED_MSG',
+    time: 'YESTERDAY',
     unread: false,
     icon: Calendar,
     color: 'slate'
@@ -81,6 +82,7 @@ const initialNotifications = [
 ];
 
 const Notifications = () => {
+  const { t } = useLanguage();
   const { isDarkMode } = useTheme();
   const [notifications, setNotifications] = useState(initialNotifications);
   const [filter, setFilter] = useState('all');
@@ -112,15 +114,15 @@ const Notifications = () => {
   return (
     <div className="animate-in fade-in duration-500 max-w-5xl mx-auto">
       <PageHeader 
-        title="Notifications Center" 
-        subtitle="Stay updated with real-time alerts from operations, staff, and guests."
+        title={t('NOTIFICATIONS_CENTER')} 
+        subtitle={t('NOTIFICATIONS_DESC')}
         actions={
           <button 
             onClick={markAllRead}
             className="flex items-center px-4 py-2 bg-accent text-white rounded-2xl text-sm font-bold shadow-lg shadow-accent/20 hover:bg-accent-hover transition-all active:scale-95"
           >
             <CheckCheck className="w-4 h-4 mr-2" />
-            Mark all as read
+            {t('MARK_ALL_READ')}
           </button>
         }
       />
@@ -129,12 +131,12 @@ const Notifications = () => {
         {/* Sidebar Filters */}
         <div className="w-full md:w-64 shrink-0 space-y-2">
           {[
-            { id: 'all', label: 'All Notifications', icon: Bell },
-            { id: 'booking', label: 'Bookings', icon: Calendar },
-            { id: 'payment', label: 'Payments', icon: CreditCard },
-            { id: 'staff', label: 'Staff', icon: UserPlus },
-            { id: 'system', label: 'System', icon: Info },
-            { id: 'alert', label: 'Alerts', icon: AlertCircle },
+            { id: 'all', label: t('ALL_NOTIFICATIONS'), icon: Bell },
+            { id: 'booking', label: t('BOOKINGS'), icon: Calendar },
+            { id: 'payment', label: t('PAYMENTS'), icon: CreditCard },
+            { id: 'staff', label: t('STAFF'), icon: UserPlus },
+            { id: 'system', label: t('SYSTEM'), icon: Info },
+            { id: 'alert', label: t('ALERTS'), icon: AlertCircle },
           ].map((item) => (
             <button
               key={item.id}
@@ -173,7 +175,7 @@ const Notifications = () => {
             <Search className="w-4 h-4 text-slate-400 ml-2" />
             <input 
               type="text" 
-              placeholder="Search notifications..." 
+              placeholder={t('SEARCH_NOTIFICATIONS_PLACEHOLDER')} 
               className="bg-transparent border-none outline-none text-sm w-full py-1 text-slate-400 placeholder:text-slate-500"
             />
             <button className={cn(
@@ -209,28 +211,28 @@ const Notifications = () => {
                       <h4 className={cn(
                         "font-bold text-base truncate pr-4",
                         isDarkMode ? "text-white" : "text-slate-900"
-                      )}>{n.title}</h4>
+                      )}>{t(n.title)}</h4>
                       <div className="flex items-center text-[10px] font-bold text-slate-400 uppercase tracking-widest gap-2">
                         <Clock className="w-3 h-3 text-slate-500" />
-                        {n.time}
+                        {t(n.time)}
                       </div>
                     </div>
                     <p className={cn(
                       "text-sm leading-relaxed mb-3",
                       isDarkMode ? "text-slate-400" : "text-slate-500"
-                    )}>{n.message}</p>
+                    )}>{t(n.message)}</p>
                     
                     <div className="flex items-center gap-3">
                       <button className={cn(
                         "text-[10px] font-bold uppercase tracking-[0.15em] transition-colors py-1.5 px-3 rounded-lg",
                         isDarkMode ? "bg-white/5 text-slate-400 hover:text-white" : "bg-slate-50 text-slate-500 hover:text-slate-900"
                       )}>
-                        View Details
+                        {t('VIEW_DETAILS')}
                       </button>
                       {n.unread && (
                         <div className="flex items-center gap-1.5 px-2 py-1 bg-accent/10 border border-accent/20 rounded-lg">
                           <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                          <span className="text-[10px] font-bold text-accent uppercase tracking-widest">New</span>
+                          <span className="text-[10px] font-bold text-accent uppercase tracking-widest">{t('NEW')}</span>
                         </div>
                       )}
                     </div>
@@ -266,8 +268,8 @@ const Notifications = () => {
                 )}>
                   <Bell className="w-8 h-8 text-slate-300" />
                 </div>
-                <h3 className={cn("text-lg font-bold mb-2", isDarkMode ? "text-white" : "text-slate-900")}>No Notifications Found</h3>
-                <p className="text-sm text-slate-400 max-w-xs">There are no notifications matching your current filter. You're all caught up!</p>
+                <h3 className={cn("text-lg font-bold mb-2", isDarkMode ? "text-white" : "text-slate-900")}>{t('NO_NOTIFICATIONS_FOUND')}</h3>
+                <p className="text-sm text-slate-400 max-w-xs">{t('NO_NOTIFICATIONS_DESC')}</p>
               </div>
             )}
           </div>

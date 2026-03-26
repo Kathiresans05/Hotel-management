@@ -32,6 +32,7 @@ import { twMerge } from 'tailwind-merge';
 
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 
 function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -40,6 +41,7 @@ function cn(...inputs) {
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const { user, logout } = useAuth();
   const { isDarkMode } = useTheme();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const role = user?.role || 'reception';
 
@@ -54,38 +56,38 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   };
 
   const menuItems = [
-    { section: 'OVERVIEW', items: [
-      { name: 'Dashboard', icon: LayoutDashboard, path: getRolePath('dashboard') },
-      { name: 'Analytics', icon: BarChart3, path: '/super-admin/analytics' },
-      { name: 'Notifications', icon: Bell, path: '/super-admin/notifications', badge: { text: '12', color: 'bg-accent/15 text-accent' } },
+    { section: t('OVERVIEW'), items: [
+      { name: t('DASHBOARD'), icon: LayoutDashboard, path: getRolePath('dashboard') },
+      { name: t('ANALYTICS'), icon: BarChart3, path: '/super-admin/analytics' },
+      { name: t('NOTIFICATIONS'), icon: Bell, path: '/super-admin/notifications', badge: { text: '12', color: 'bg-accent/15 text-accent' } },
     ]},
-    { section: 'OPERATIONS', items: [
-      { name: 'Rooms', icon: Bed, path: getRolePath('rooms') },
-      { name: 'Bookings', icon: CalendarCheck, path: getRolePath('bookings'), badge: { text: '8', color: 'bg-emerald-500/10 text-emerald-500' } },
-      { name: 'Check-In / Out', icon: CheckCircle2, path: '/super-admin/check-in' },
-      { name: 'Customers', icon: Users, path: getRolePath('customers') },
-      { name: 'Services', icon: ListTodo, path: '/super-admin/services' },
+    { section: t('OPERATIONS'), items: [
+      { name: t('ROOMS'), icon: Bed, path: getRolePath('rooms') },
+      { name: t('BOOKINGS'), icon: CalendarCheck, path: getRolePath('bookings'), badge: { text: '8', color: 'bg-emerald-500/10 text-emerald-500' } },
+      { name: t('CHECK_IN_OUT'), icon: CheckCircle2, path: '/super-admin/check-in' },
+      { name: t('CUSTOMERS'), icon: Users, path: getRolePath('customers') },
+      { name: t('SERVICES'), icon: ListTodo, path: '/super-admin/services' },
     ]},
-    { section: 'PEOPLE MANAGEMENT', items: [
-      { name: 'Staff', icon: Users2, path: '/super-admin/staff' },
-      { name: 'Roles & Permissions', icon: ShieldCheck, path: '/super-admin/roles' },
-      { name: 'Attendance', icon: Fingerprint, path: '/super-admin/attendance' },
-      { name: 'Payroll', icon: Banknote, path: '/super-admin/payroll' },
+    { section: t('PEOPLE_MANAGEMENT'), items: [
+      { name: t('STAFF'), icon: Users2, path: '/super-admin/staff' },
+      { name: t('ROLES_PERMISSIONS'), icon: ShieldCheck, path: '/super-admin/roles' },
+      { name: t('ATTENDANCE'), icon: Fingerprint, path: '/super-admin/attendance' },
+      { name: t('PAYROLL'), icon: Banknote, path: '/super-admin/payroll' },
     ]},
-    { section: 'FINANCE', items: [
-      { name: 'Billing', icon: CreditCard, path: getRolePath('billing') },
-      { name: 'Payments', icon: Wallet, path: '/super-admin/payments', badge: { text: 'Pending', color: 'bg-orange-500/10 text-orange-400' } },
-      { name: 'Expenses', icon: Receipt, path: '/super-admin/expenses' },
-      { name: 'Finance Overview', icon: BarChart3, path: '/super-admin/finance' },
-      { name: 'Reports', icon: ClipboardList, path: '/super-admin/reports' },
-      { name: 'GST / Tax', icon: Banknote, path: '/super-admin/tax' },
+    { section: t('FINANCE'), items: [
+      { name: t('BILLING'), icon: CreditCard, path: getRolePath('billing') },
+      { name: t('PAYMENTS'), icon: Wallet, path: '/super-admin/payments', badge: { text: 'Pending', color: 'bg-orange-500/10 text-orange-400' } },
+      { name: t('EXPENSES'), icon: Receipt, path: '/super-admin/expenses' },
+      { name: t('FINANCE_OVERVIEW'), icon: BarChart3, path: '/super-admin/finance' },
+      { name: t('REPORTS'), icon: ClipboardList, path: '/super-admin/reports' },
+      { name: t('GST_TAX'), icon: Banknote, path: '/super-admin/tax' },
     ]},
-    { section: 'SYSTEM', items: [
-      { name: 'Settings', icon: Settings, path: getRolePath('settings') },
-      { name: 'Branches', icon: Network, path: '/super-admin/branches' },
-      { name: 'Integrations', icon: Activity, path: '/super-admin/integrations' },
-      { name: 'Backup & Restore', icon: Database, path: '/super-admin/backup' },
-      { name: 'Audit Logs', icon: History, path: '/super-admin/audit-logs' },
+    { section: t('SYSTEM'), items: [
+      { name: t('SETTINGS'), icon: Settings, path: getRolePath('settings') },
+      { name: t('BRANCHES'), icon: Network, path: '/super-admin/branches' },
+      { name: t('INTEGRATIONS'), icon: Activity, path: '/super-admin/integrations' },
+      { name: t('BACKUP_RESTORE'), icon: Database, path: '/super-admin/backup' },
+      { name: t('AUDIT_LOGS'), icon: History, path: '/super-admin/audit-logs' },
     ]},
   ];
 
@@ -239,11 +241,11 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           className="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-[#EF4444] hover:bg-[#EF4444]/10 transition-all duration-300 group"
         >
           <LogOut className="w-[22px] h-[22px] shrink-0 group-hover:rotate-12 transition-transform duration-500" />
-          {isOpen && <span className="font-medium text-[15px] tracking-wide">Sign Out</span>}
+          {isOpen && <span className="font-medium text-[15px] tracking-wide">{t('SIGN_OUT')}</span>}
           
           {!isOpen && (
             <div className="absolute left-16 px-3 py-2 bg-[#0F172A] border border-white/10 text-[#EF4444] text-[13px] font-medium rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-[100] shadow-2xl">
-              Sign Out
+              {t('SIGN_OUT')}
             </div>
           )}
         </button>

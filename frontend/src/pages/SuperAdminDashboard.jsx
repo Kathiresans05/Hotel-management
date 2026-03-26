@@ -11,6 +11,7 @@ import {
     Tooltip, ResponsiveContainer, AreaChart, Area 
 } from 'recharts';
 import StatusBadge from '../components/StatusBadge';
+import { useLanguage } from '../context/LanguageContext';
 
 const revenueData = [
     { name: 'Mon', revenue: 4000 },
@@ -30,23 +31,24 @@ const occupancyData = [
 ];
 
 const SuperAdminDashboard = () => {
+    const { t } = useLanguage();
     return (
         <DashboardLayout>
             <div className="space-y-8">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
-                        <h1 className="text-2xl font-bold text-textPrimary">Executive Overview</h1>
-                        <p className="text-textSecondary text-sm">Welcome back, Super Admin. Here's what's happening today.</p>
+                        <h1 className="text-2xl font-bold text-textPrimary">{t('EXECUTIVE_OVERVIEW')}</h1>
+                        <p className="text-textSecondary text-sm">{t('SUPER_ADMIN_WELCOME')}</p>
                     </div>
                     <div className="flex items-center gap-3">
                         <button className="btn-primary py-2.5 flex items-center gap-2">
                             <Plus size={18} />
-                            Add Staff
+                            {t('ADD_STAFF')}
                         </button>
                         <button className="px-4 py-2.5 bg-surface border border-border rounded-xl font-bold flex items-center gap-2 hover:bg-slate-50 transition-all">
                             <Download size={18} />
-                            Reports
+                            {t('REPORTS')}
                         </button>
                     </div>
                 </div>
@@ -54,31 +56,31 @@ const SuperAdminDashboard = () => {
                 {/* KPI Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     <KPIStatCard 
-                        title="Total Revenue" 
+                        title={t('TOTAL_REVENUE')} 
                         value="₹2,45,000" 
                         icon={IndianRupee} 
                         trend="up" 
                         trendValue="12.5" 
-                        color="blue"
+                        color="orange"
                     />
                     <KPIStatCard 
-                        title="Active Bookings" 
+                        title={t('ACTIVE_BOOKINGS')} 
                         value="48" 
                         icon={CalendarCheck} 
                         trend="up" 
                         trendValue="5.2" 
-                        color="green"
+                        color="purple"
                     />
                     <KPIStatCard 
-                        title="Room Occupancy" 
+                        title={t('ROOM_OCCUPANCY')} 
                         value="82%" 
                         icon={DoorOpen} 
                         trend="down" 
                         trendValue="2.1" 
-                        color="purple"
+                        color="green"
                     />
                     <KPIStatCard 
-                        title="Total Staff" 
+                        title={t('TOTAL_STAFF')} 
                         value="12" 
                         icon={Users} 
                         color="orange"
@@ -89,10 +91,10 @@ const SuperAdminDashboard = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div className="card p-6">
                         <div className="flex items-center justify-between mb-8">
-                            <h3 className="font-bold text-lg text-textPrimary">Revenue Trend</h3>
+                            <h3 className="font-bold text-lg text-textPrimary">{t('REVENUE_TREND')}</h3>
                             <select className="bg-slate-50 border-none text-sm font-bold text-textSecondary outline-none">
-                                <option>Last 7 Days</option>
-                                <option>Last 30 Days</option>
+                                <option>{t('LAST_7_DAYS')}</option>
+                                <option>{t('LAST_30_DAYS')}</option>
                             </select>
                         </div>
                         <div className="h-[300px]">
@@ -118,7 +120,7 @@ const SuperAdminDashboard = () => {
 
                     <div className="card p-6">
                         <div className="flex items-center justify-between mb-8">
-                            <h3 className="font-bold text-lg text-textPrimary">Occupancy Rate</h3>
+                            <h3 className="font-bold text-lg text-textPrimary">{t('OCCUPANCY_RATE')}</h3>
                             <Filter size={18} className="text-slate-400" />
                         </div>
                         <div className="h-[300px]">
@@ -142,17 +144,17 @@ const SuperAdminDashboard = () => {
                 <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
                     <div className="xl:col-span-2 card overflow-hidden">
                         <div className="p-6 border-b border-border flex items-center justify-between">
-                            <h3 className="font-bold text-lg text-textPrimary">Recent Activity</h3>
-                            <button className="text-accent text-sm font-bold hover:underline">View All</button>
+                            <h3 className="font-bold text-lg text-textPrimary">{t('RECENT_ACTIVITY')}</h3>
+                            <button className="text-accent text-sm font-bold hover:underline">{t('VIEW_ALL')}</button>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="w-full text-left">
                                 <thead className="bg-slate-50 border-b border-border">
                                     <tr>
-                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">User</th>
-                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Action</th>
-                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Date</th>
-                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Status</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">{t('USER')}</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">{t('ACTION')}</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">{t('DATE')}</th>
+                                        <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase">{t('STATUS')}</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-border">
@@ -180,7 +182,7 @@ const SuperAdminDashboard = () => {
                     <div className="card p-6">
                         <h3 className="font-bold text-lg text-textPrimary mb-6 flex items-center gap-2">
                             <Clock size={18} className="text-accent" />
-                            Upcoming Bookings
+                            {t('UPCOMING_BOOKINGS')}
                         </h3>
                         <div className="space-y-6">
                             {[1, 2, 3, 4].map((item) => (

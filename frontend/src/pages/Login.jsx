@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ChevronRight, ShieldCheck, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const Login = () => {
+  const { t } = useLanguage();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,7 +24,7 @@ const Login = () => {
       await login(email, password);
       navigate(`/verify-otp?email=${encodeURIComponent(email)}`);
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+      setError(err.response?.data?.message || t('LOGIN_FAILED'));
     } finally {
       setLoading(false);
     }
@@ -85,8 +87,8 @@ const Login = () => {
               <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center text-white font-bold">H</div>
               <span className="text-xl font-poppins font-bold text-primary tracking-tight">HOSTEL<span className="text-accent">PRO</span></span>
             </div>
-            <h2 className="text-3xl font-poppins font-bold text-text-primary tracking-tight">Welcome back</h2>
-            <p className="text-text-secondary mt-2 text-sm">Please enter your credentials to access the console.</p>
+            <h2 className="text-3xl font-poppins font-bold text-text-primary tracking-tight">{t('WELCOME_BACK')}</h2>
+            <p className="text-text-secondary mt-2 text-sm">{t('LOGIN_SUBTITLE')}</p>
           </div>
 
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -98,7 +100,7 @@ const Login = () => {
             )}
 
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-text-secondary uppercase tracking-widest">Email Address</label>
+              <label className="text-xs font-bold text-text-secondary uppercase tracking-widest">{t('EMAIL_ADDRESS')}</label>
               <div className="relative group">
                 <Mail className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary group-focus-within:text-accent transition-colors" />
                 <input 
@@ -114,8 +116,8 @@ const Login = () => {
 
             <div className="space-y-1.5">
               <div className="flex justify-between items-center">
-                <label className="text-xs font-bold text-text-secondary uppercase tracking-widest">Password</label>
-                <a href="#" className="text-[10px] font-bold text-accent uppercase hover:underline">Forgot password?</a>
+                <label className="text-xs font-bold text-text-secondary uppercase tracking-widest">{t('PASSWORD')}</label>
+                <a href="#" className="text-[10px] font-bold text-accent uppercase hover:underline">{t('FORGOT_PASSWORD')}</a>
               </div>
               <div className="relative group">
                 <Lock className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary group-focus-within:text-accent transition-colors" />
@@ -139,7 +141,7 @@ const Login = () => {
 
             <div className="flex items-center space-x-2">
               <input type="checkbox" id="remember" className="w-4 h-4 rounded border-border text-accent focus:ring-accent/20" />
-              <label htmlFor="remember" className="text-sm text-text-secondary">Keep me signed in on this device</label>
+              <label htmlFor="remember" className="text-sm text-text-secondary">{t('REMEMBER_ME')}</label>
             </div>
 
             <button 
@@ -147,7 +149,7 @@ const Login = () => {
               disabled={loading}
               className="w-full py-4 bg-primary text-white font-bold rounded-button hover:bg-primary-dark transition-all transform active:scale-[0.98] flex items-center justify-center group disabled:opacity-50 disabled:active:scale-100"
             >
-              {loading ? 'Authenticating...' : 'Sign In to Dashboard'}
+              {loading ? t('AUTHENTICATING') : t('SIGN_IN_BTN')}
               {!loading && <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />}
             </button>
           </form>
@@ -158,8 +160,8 @@ const Login = () => {
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs font-bold text-text-primary">Environment: Production</p>
-                <p className="text-[10px] text-text-secondary italic">Your connection is secured with RSA-4096 encryption.</p>
+                <p className="text-xs font-bold text-text-primary">{t('ENVIRONMENT_PRODUCTION')}</p>
+                <p className="text-[10px] text-text-secondary italic">{t('SECURE_CONNECTION')}</p>
               </div>
             </div>
           </div>

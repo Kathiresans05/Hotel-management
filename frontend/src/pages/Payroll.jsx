@@ -20,6 +20,7 @@ import {
 import PageHeader from '../components/PageHeader';
 import { useTheme } from '../context/ThemeContext';
 import { cn } from '../utils/cn';
+import { useLanguage } from '../context/LanguageContext';
 
 const payrollData = [
   { id: 1, name: 'John Doe', role: 'Front Desk', basePay: 22000, bonuses: 1500, deductions: 500, status: 'Paid', method: 'Bank Transfer' },
@@ -31,21 +32,22 @@ const payrollData = [
 ];
 
 const Payroll = () => {
+  const { t } = useLanguage();
   const { isDarkMode } = useTheme();
   const [selectedMonth, setSelectedMonth] = useState('March 2026');
 
   const stats = [
-    { label: 'Total Payroll', value: '₹1,47,500', trend: '+4.2%', trendUp: true, icon: Banknote, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
-    { label: 'Pending Payout', value: '₹37,800', trend: '-2.1%', trendUp: false, icon: Clock, color: 'text-orange-500', bg: 'bg-orange-500/10' },
-    { label: 'Staff Count', value: '8', icon: Users, color: 'text-blue-500', bg: 'bg-blue-500/10' },
-    { label: 'Avg Salary', value: '₹18,437', icon: TrendingUp, color: 'text-purple-500', bg: 'bg-purple-500/10' },
+    { label: t('TOTAL_PAYROLL'), value: '₹1,47,500', trend: '+4.2%', trendUp: true, icon: Banknote, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
+    { label: t('PENDING_PAYOUT'), value: '₹37,800', trend: '-2.1%', trendUp: false, icon: Clock, color: 'text-orange-500', bg: 'bg-orange-500/10' },
+    { label: t('STAFF_COUNT'), value: '8', icon: Users, color: 'text-blue-500', bg: 'bg-blue-500/10' },
+    { label: t('AVG_SALARY'), value: '₹18,437', icon: TrendingUp, color: 'text-purple-500', bg: 'bg-purple-500/10' },
   ];
 
   return (
     <div className="animate-in fade-in duration-500">
       <PageHeader 
-        title="Payroll Management" 
-        subtitle="Manage staff salaries, bonuses, and monthly financial summaries."
+        title={t('PAYROLL_MANAGEMENT')} 
+        subtitle={t('PAYROLL_DESC')}
         actions={
           <div className="flex items-center gap-3">
             <div className={cn(
@@ -58,7 +60,7 @@ const Payroll = () => {
             </div>
             <button className="flex items-center px-4 py-2 bg-accent text-white rounded-2xl text-sm font-bold shadow-lg shadow-accent/20 hover:bg-accent-hover transition-all active:scale-95">
               <Download className="w-4 h-4 mr-2" />
-              Pay Slips
+              {t('PAY_SLIPS')}
             </button>
           </div>
         }
@@ -101,13 +103,13 @@ const Payroll = () => {
           isDarkMode ? "bg-[#0F172A]/40 border-white/5" : "bg-white border-slate-100 shadow-sm"
         )}>
           <div className="p-6 border-b border-white/5 flex items-center justify-between">
-            <h3 className={cn("font-bold text-lg", isDarkMode ? "text-white" : "text-slate-900")}>Staff Salary Ledger</h3>
+            <h3 className={cn("font-bold text-lg", isDarkMode ? "text-white" : "text-slate-900")}>{t('STAFF_SALARY_LEDGER')}</h3>
             <div className={cn(
               "flex items-center gap-2 px-3 py-1.5 rounded-xl border border-white/5",
               isDarkMode ? "bg-white/5" : "bg-slate-50"
             )}>
               <Search className="w-4 h-4 text-slate-400" />
-              <input type="text" placeholder="Filter employees..." className="bg-transparent border-none outline-none text-xs text-slate-400 w-32" />
+              <input type="text" placeholder={t('FILTER_EMPLOYEES_PLACEHOLDER')} className="bg-transparent border-none outline-none text-xs text-slate-400 w-32" />
             </div>
           </div>
           <div className="overflow-x-auto">
@@ -117,12 +119,12 @@ const Payroll = () => {
                   "border-b uppercase text-[9px] font-bold tracking-widest text-slate-400",
                   isDarkMode ? "border-white/5 bg-white/[0.02]" : "border-slate-100 bg-slate-50/50"
                 )}>
-                  <th className="px-6 py-5">Employee</th>
-                  <th className="px-6 py-5">Base Pay</th>
-                  <th className="px-6 py-5 text-emerald-500">Bonus</th>
-                  <th className="px-6 py-5 text-rose-500">Ded.</th>
-                  <th className="px-6 py-5 text-accent">Net Amount</th>
-                  <th className="px-6 py-5">Status</th>
+                  <th className="px-6 py-5">{t('EMPLOYEE')}</th>
+                  <th className="px-6 py-5">{t('BASE_PAY')}</th>
+                  <th className="px-6 py-5 text-emerald-500">{t('BONUS')}</th>
+                  <th className="px-6 py-5 text-rose-500">{t('DEDUCTIONS')}</th>
+                  <th className="px-6 py-5 text-accent">{t('NET_AMOUNT')}</th>
+                  <th className="px-6 py-5">{t('STATUS')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -150,7 +152,7 @@ const Payroll = () => {
                         staff.status === 'Paid' ? "bg-emerald-500/10 text-emerald-500" :
                         staff.status === 'Processing' ? "bg-blue-500/10 text-blue-500" :
                         "bg-slate-500/10 text-slate-400"
-                      )}>{staff.status}</span>
+                      )}>{t(staff.status.toUpperCase())}</span>
                     </td>
                   </tr>
                 ))}
@@ -167,7 +169,7 @@ const Payroll = () => {
           )}>
             <h4 className={cn("font-bold text-sm mb-6 flex items-center gap-2", isDarkMode ? "text-white" : "text-slate-900")}>
               <History size={16} className="text-accent" />
-              Transfer History
+              {t('TRANSFER_HISTORY')}
             </h4>
             <div className="space-y-5">
               {[
@@ -190,13 +192,13 @@ const Payroll = () => {
                   </div>
                   <div className="text-right">
                     <p className={cn("text-xs font-bold", isDarkMode ? "text-white" : "text-slate-900")}>{h.amount}</p>
-                    <p className={cn("text-[9px] font-bold uppercase tracking-widest", h.color)}>Completed</p>
+                    <p className={cn("text-[9px] font-bold uppercase tracking-widest", h.color)}>{t('COMPLETED')}</p>
                   </div>
                 </div>
               ))}
             </div>
             <button className="w-full mt-6 py-3 border border-dashed border-white/10 rounded-2xl text-[10px] font-bold text-slate-400 hover:text-accent hover:border-accent/40 transition-all uppercase tracking-[0.2em]">
-              View Full History
+              {t('VIEW_FULL_HISTORY')}
             </button>
           </div>
 
@@ -205,12 +207,12 @@ const Payroll = () => {
           )}>
             <div className="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-bl-full -mr-6 -mt-6" />
             <h4 className="font-bold text-sm mb-4 uppercase tracking-[0.2em] opacity-80 flex items-center gap-2">
-              <Briefcase size={14} /> Action Required
+              <Briefcase size={14} /> {t('ACTION_REQUIRED')}
             </h4>
-            <p className="text-2xl font-bold tracking-tight mb-2">2 Pending Approvals</p>
+            <p className="text-2xl font-bold tracking-tight mb-2">2 {t('PENDING_APPROVALS')}</p>
             <p className="text-xs opacity-70 leading-relaxed mb-6">Staff bonuses for the 'Hostet Expo Event' are awaiting your final confirmation.</p>
             <button className="w-full py-3.5 bg-white text-accent rounded-2xl text-xs font-bold shadow-lg hover:scale-[1.02] transition-all active:scale-95 uppercase tracking-widest">
-              Review Bonuses
+              {t('REVIEW_BONUSES')}
             </button>
           </div>
         </div>

@@ -20,25 +20,27 @@ import {
 } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 import { cn } from '../utils/cn';
 
 const housekeepingData = [
-  { id: '101', type: 'Single', status: 'Dirty', assignedTo: 'John Smith', lastCleaned: '4 hours ago' },
-  { id: '102', type: 'Double', status: 'In Progress', assignedTo: 'Sarah Lee', lastCleaned: '2 hours ago' },
-  { id: '103', type: 'Suite', status: 'Clean', assignedTo: '-', lastCleaned: '30 mins ago' },
-  { id: '104', type: 'Double', status: 'Cleaning Needed', assignedTo: '-', lastCleaned: 'Yesterday' },
-  { id: '201', type: 'Family', status: 'Clean', assignedTo: '-', lastCleaned: '1 hour ago' },
-  { id: '202', type: 'Single', status: 'Dirty', assignedTo: 'Mike Ross', lastCleaned: '5 hours ago' },
+  { id: '101', type: 'SINGLE', status: 'DIRTY', assignedTo: 'John Smith', lastCleaned: '4_HOURS_AGO' },
+  { id: '102', type: 'DOUBLE', status: 'IN_PROGRESS', assignedTo: 'Sarah Lee', lastCleaned: '2_HOURS_AGO' },
+  { id: '103', type: 'SUITE', status: 'CLEAN', assignedTo: '-', lastCleaned: '30_MINS_AGO' },
+  { id: '104', type: 'DOUBLE', status: 'CLEANING_NEEDED', assignedTo: '-', lastCleaned: 'YESTERDAY' },
+  { id: '201', type: 'FAMILY', status: 'CLEAN', assignedTo: '-', lastCleaned: '1_HOUR_AGO' },
+  { id: '202', type: 'SINGLE', status: 'DIRTY', assignedTo: 'Mike Ross', lastCleaned: '5_HOURS_AGO' },
 ];
 
 const maintenanceTickets = [
-  { id: 'MT-552', room: '104', issue: 'AC leakage', priority: 'High', status: 'Open', created: '2 hours ago', icon: Droplets, color: 'red' },
-  { id: 'MT-553', room: '201', issue: 'Broken window latch', priority: 'Medium', status: 'In Progress', created: '5 hours ago', icon: Hammer, color: 'orange' },
-  { id: 'MT-554', room: '305', issue: 'WiFi signal weak', priority: 'Low', status: 'Resolved', created: '1 day ago', icon: Zap, color: 'blue' },
-  { id: 'MT-555', room: '102', issue: 'Light bulb replacement', priority: 'Low', status: 'Open', created: '3 hours ago', icon: Zap, color: 'yellow' },
+  { id: 'MT-552', room: '104', issue: 'AC_LEAKAGE', priority: 'HIGH', status: 'OPEN', created: '2_HOURS_AGO', icon: Droplets, color: 'red' },
+  { id: 'MT-553', room: '201', issue: 'BROKEN_WINDOW_LATCH', priority: 'MEDIUM', status: 'IN_PROGRESS', created: '5_HOURS_AGO', icon: Hammer, color: 'orange' },
+  { id: 'MT-554', room: '305', issue: 'WIFI_SIGNAL_WEAK', priority: 'LOW', status: 'RESOLVED', created: '1_DAY_AGO', icon: Zap, color: 'blue' },
+  { id: 'MT-555', room: '102', issue: 'LIGHT_BULB_REPLACEMENT', priority: 'LOW', status: 'OPEN', created: '3_HOURS_AGO', icon: Zap, color: 'yellow' },
 ];
 
 const Services = () => {
+  const { t } = useLanguage();
   const { isDarkMode } = useTheme();
   const [activeTab, setActiveTab] = useState('housekeeping');
   const [viewMode, setViewMode] = useState('grid');
@@ -46,8 +48,8 @@ const Services = () => {
   return (
     <div className="animate-in fade-in duration-500">
       <PageHeader 
-        title="Housekeeping & Maintenance" 
-        subtitle="Manage room cleanliness, repair tickets, and facility services."
+        title={t('HOUSEKEEPING_MAINTENANCE')} 
+        subtitle={t('SERVICES_DESC')}
         actions={
           <div className="flex items-center gap-3">
             <button className={cn(
@@ -55,11 +57,11 @@ const Services = () => {
               isDarkMode ? "bg-white/5 border-white/10 text-white hover:bg-white/10" : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 shadow-sm"
             )}>
               <LayoutGrid className="w-4 h-4 mr-2" />
-              Resource Planner
+              {t('RESOURCE_PLANNER')}
             </button>
             <button className="flex items-center px-4 py-2 bg-accent text-white rounded-2xl text-sm font-bold shadow-lg shadow-accent/20 hover:bg-accent-hover transition-all active:scale-95">
               <Plus className="w-4 h-4 mr-2" />
-              New Ticket
+              {t('NEW_TICKET')}
             </button>
           </div>
         }
@@ -69,9 +71,9 @@ const Services = () => {
       <div className="flex items-center justify-between mb-8 border-b border-white/10 pb-1">
         <div className="flex items-center gap-8 relative">
           {[
-            { id: 'housekeeping', label: 'Housekeeping', icon: Archive },
-            { id: 'maintenance', label: 'Maintenance Tickets', icon: Wrench },
-            { id: 'amenities', label: 'Room Service', icon: Bell },
+            { id: 'housekeeping', label: t('HOUSEKEEPING'), icon: Archive },
+            { id: 'maintenance', label: t('MAINTENANCE_TICKETS'), icon: Wrench },
+            { id: 'amenities', label: t('ROOM_SERVICE'), icon: Bell },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -129,7 +131,7 @@ const Services = () => {
               isDarkMode ? "bg-white/5 border-white/10" : "bg-white border-slate-200"
             )}>
               <Search className="w-4 h-4 text-slate-400" />
-              <input type="text" placeholder="Search rooms..." className="bg-transparent border-none outline-none text-sm text-slate-400 w-full" />
+              <input type="text" placeholder={t('SEARCH_ROOMS')} className="bg-transparent border-none outline-none text-sm text-slate-400 w-full" />
             </div>
             
             <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto">
@@ -143,7 +145,7 @@ const Services = () => {
                       : isDarkMode ? "bg-white/5 border border-white/5 text-slate-400 hover:bg-white/10" : "bg-white border border-slate-100 text-slate-500 hover:border-slate-300"
                   )}
                 >
-                  {filter}
+                  {t(filter.toUpperCase().replace(' ', '_'))}
                 </button>
               ))}
             </div>
@@ -160,9 +162,9 @@ const Services = () => {
               >
                 <div className="flex items-center justify-between mb-5">
                   <div>
-                    <span className="text-[10px] font-bold tracking-widest text-[#64748B] uppercase mb-1 block">{room.type} Room</span>
+                    <span className="text-[10px] font-bold tracking-widest text-[#64748B] uppercase mb-1 block">{t(room.type.toUpperCase())} {t('ROOM')}</span>
                     <h3 className={cn("text-2xl font-bold tracking-tight", isDarkMode ? "text-white" : "text-slate-900")}>
-                      Room <span className="text-accent">{room.id}</span>
+                      {t('ROOM')} <span className="text-accent">{room.id}</span>
                     </h3>
                   </div>
                   <div className={cn(
@@ -177,29 +179,29 @@ const Services = () => {
 
                 <div className="space-y-4 mb-6 pt-4 border-t border-white/5">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-slate-500 uppercase tracking-widest text-[9px]">Status</span>
+                    <span className="font-bold text-slate-500 uppercase tracking-widest text-[9px]">{t('STATUS')}</span>
                     <span className={cn(
                       "px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider",
                       room.status === 'Dirty' ? "bg-rose-500/20 text-rose-400" :
                       room.status === 'Clean' ? "bg-emerald-500/20 text-emerald-400" :
                       "bg-blue-500/20 text-blue-400"
-                    )}>{room.status}</span>
+                    )}>{t(room.status.toUpperCase().replace(' ', '_'))}</span>
                   </div>
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-slate-500 uppercase tracking-widest text-[9px]">Assigned</span>
+                    <span className="font-bold text-slate-500 uppercase tracking-widest text-[9px]">{t('ASSIGNED')}</span>
                     <span className={cn("font-bold", isDarkMode ? "text-white/70" : "text-slate-600")}>{room.assignedTo}</span>
                   </div>
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-slate-500 uppercase tracking-widest text-[9px]">Last Updated</span>
+                    <span className="font-bold text-slate-500 uppercase tracking-widest text-[9px]">{t('LAST_UPDATED')}</span>
                     <span className={cn("font-bold flex items-center gap-1.5", isDarkMode ? "text-white/40" : "text-slate-400")}>
-                      <Clock size={12} /> {room.lastCleaned}
+                      <Clock size={12} /> {t(room.lastCleaned.toUpperCase().replace(' ', '_'))}
                     </span>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <button className="flex-1 py-3 bg-accent/10 border border-accent/20 rounded-2xl text-[10px] font-bold text-accent uppercase tracking-widest hover:bg-accent hover:text-white transition-all shadow-lg shadow-accent/5">
-                    Update Progress
+                    {t('UPDATE_PROGRESS')}
                   </button>
                   <button className={cn(
                     "p-3 rounded-2xl border transition-colors",
@@ -230,7 +232,7 @@ const Services = () => {
                   "w-16 h-16 rounded-3xl flex flex-col items-center justify-center shrink-0 shadow-lg",
                   isDarkMode ? "bg-white/5 text-white" : "bg-slate-50 text-slate-900"
                 )}>
-                  <span className="text-[10px] font-bold text-slate-400 mb-1">ROOM</span>
+                  <span className="text-[10px] font-bold text-slate-400 mb-1">{t('ROOM')}</span>
                   <span className="text-xl font-bold tracking-tighter">{ticket.room}</span>
                 </div>
 
@@ -245,19 +247,19 @@ const Services = () => {
                       )}>
                         <ticket.icon size={16} />
                       </div>
-                      <h4 className={cn("font-bold text-base", isDarkMode ? "text-white" : "text-slate-900")}>{ticket.issue}</h4>
+                      <h4 className={cn("font-bold text-base", isDarkMode ? "text-white" : "text-slate-900")}>{t(ticket.issue.toUpperCase().replace(' ', '_'))}</h4>
                       <span className={cn(
                         "px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-widest",
                         ticket.priority === 'High' ? "bg-rose-500 text-white" : "bg-slate-500/10 text-slate-500"
-                      )}>{ticket.priority} Priority</span>
+                      )}>{t(ticket.priority.toUpperCase())} {t('PRIORITY')}</span>
                     </div>
                     <span className="text-[10px] font-bold text-slate-400 flex items-center gap-1.5">
-                      <Clock size={12} /> {ticket.created}
+                      <Clock size={12} /> {t(ticket.created.toUpperCase().replace(' ', '_'))}
                     </span>
                   </div>
                   
                   <p className="text-sm text-slate-500 mb-4 font-medium opacity-80">
-                    Maintenance ID: <span className="text-accent">{ticket.id}</span> • Assigned to: <span className="text-slate-400">General Maintenance Dept</span>
+                    {t('MAINTENANCE_ID')}: <span className="text-accent">{ticket.id}</span> • {t('ASSIGNED_TO')}: <span className="text-slate-400">{t('GENERAL_MAINTENANCE_DEPT')}</span>
                   </p>
 
                   <div className="flex items-center gap-4">
@@ -266,11 +268,11 @@ const Services = () => {
                         "w-2 h-2 rounded-full",
                         ticket.status === 'Resolved' ? "bg-emerald-500" : "bg-orange-500 animate-pulse"
                       )} />
-                      <span className={cn("text-xs font-bold uppercase tracking-widest", isDarkMode ? "text-white/70" : "text-slate-600")}>{ticket.status}</span>
+                      <span className={cn("text-xs font-bold uppercase tracking-widest", isDarkMode ? "text-white/70" : "text-slate-600")}>{t(ticket.status.toUpperCase().replace(' ', '_'))}</span>
                     </div>
                     <div className="h-4 w-[1px] bg-white/10" />
-                    <button className="text-xs font-bold text-accent hover:underline uppercase tracking-widest">Update status</button>
-                    <button className="text-xs font-bold text-slate-400 hover:text-white uppercase tracking-widest">Assign task</button>
+                    <button className="text-xs font-bold text-accent hover:underline uppercase tracking-widest">{t('UPDATE_STATUS')}</button>
+                    <button className="text-xs font-bold text-slate-400 hover:text-white uppercase tracking-widest">{t('ASSIGN_TASK')}</button>
                   </div>
                 </div>
 
@@ -292,19 +294,19 @@ const Services = () => {
               isDarkMode ? "bg-accent/10 border-accent/20" : "bg-accent/[0.03] border-accent/10"
             )}>
               <h4 className="font-bold text-sm text-accent mb-4 uppercase tracking-[0.2em] flex items-center gap-2">
-                <Flame size={14} /> Critical Stats
+                <Flame size={14} /> {t('CRITICAL_STATS')}
               </h4>
               <div className="space-y-4">
                 <div className="flex justify-between items-center px-4 py-3 bg-white/5 rounded-2xl border border-white/5">
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Open Tickets</span>
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{t('OPEN_TICKETS')}</span>
                   <span className="text-xl font-bold text-white">12</span>
                 </div>
                 <div className="flex justify-between items-center px-4 py-3 bg-white/5 rounded-2xl border border-white/5">
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Avg Fix Time</span>
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{t('AVG_FIX_TIME')}</span>
                   <span className="text-xl font-bold text-white">4.2<span className="text-sm font-normal opacity-50 ml-1">h</span></span>
                 </div>
                 <div className="flex justify-between items-center px-4 py-3 bg-white/5 rounded-2xl border border-white/5">
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Efficiency</span>
+                  <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">{t('EFFICIENCY')}</span>
                   <span className="text-xl font-bold text-accent">94%</span>
                 </div>
               </div>
@@ -314,11 +316,11 @@ const Services = () => {
               "p-6 rounded-[28px] border",
               isDarkMode ? "bg-[#0F172A]/40 border-white/5" : "bg-white border-slate-100"
             )}>
-              <h4 className={cn("font-bold text-sm mb-4 uppercase tracking-widest", isDarkMode ? "text-white" : "text-slate-900")}>Quick Options</h4>
+              <h4 className={cn("font-bold text-sm mb-4 uppercase tracking-widest", isDarkMode ? "text-white" : "text-slate-900")}>{t('QUICK_OPTIONS')}</h4>
               <div className="space-y-2">
-                <button className="w-full text-left px-4 py-2 text-xs font-bold text-slate-400 hover:text-accent transition-all">Report utility failure</button>
-                <button className="w-full text-left px-4 py-2 text-xs font-bold text-slate-400 hover:text-accent transition-all">Manage spare parts</button>
-                <button className="w-full text-left px-4 py-2 text-xs font-bold text-slate-400 hover:text-accent transition-all">Schedule inspection</button>
+                <button className="w-full text-left px-4 py-2 text-xs font-bold text-slate-400 hover:text-accent transition-all">{t('REPORT_UTILITY_FAILURE')}</button>
+                <button className="w-full text-left px-4 py-2 text-xs font-bold text-slate-400 hover:text-accent transition-all">{t('MANAGE_SPARE_PARTS')}</button>
+                <button className="w-full text-left px-4 py-2 text-xs font-bold text-slate-400 hover:text-accent transition-all">{t('SCHEDULE_INSPECTION')}</button>
               </div>
             </div>
           </div>

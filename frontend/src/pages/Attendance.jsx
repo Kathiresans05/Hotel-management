@@ -18,6 +18,7 @@ import {
 import PageHeader from '../components/PageHeader';
 import { useTheme } from '../context/ThemeContext';
 import { cn } from '../utils/cn';
+import { useLanguage } from '../context/LanguageContext';
 
 const staffAttendanceData = [
   { id: 1, name: 'John Doe', role: 'Front Desk', status: 'On Duty', checkIn: '08:00 AM', checkOut: '-', location: 'Main Entrance', avatar: 'J' },
@@ -29,21 +30,22 @@ const staffAttendanceData = [
 ];
 
 const Attendance = () => {
+  const { t } = useLanguage();
   const { isDarkMode } = useTheme();
   const [activeFilter, setActiveFilter] = useState('All');
 
   const stats = [
-    { label: 'Present Today', value: '18/22', icon: CheckCircle2, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
-    { label: 'Late Arrivals', value: '3', icon: Clock, color: 'text-orange-500', bg: 'bg-orange-500/10' },
-    { label: 'On Leave', value: '2', icon: Calendar, color: 'text-blue-500', bg: 'bg-blue-500/10' },
-    { label: 'Absent', value: '1', icon: XCircle, color: 'text-rose-500', bg: 'bg-rose-500/10' },
+    { label: t('PRESENT_TODAY'), value: '18/22', icon: CheckCircle2, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
+    { label: t('LATE_ARRIVALS'), value: '3', icon: Clock, color: 'text-orange-500', bg: 'bg-orange-500/10' },
+    { label: t('ON_LEAVE'), value: '2', icon: Calendar, color: 'text-blue-500', bg: 'bg-blue-500/10' },
+    { label: t('ABSENT'), value: '1', icon: XCircle, color: 'text-rose-500', bg: 'bg-rose-500/10' },
   ];
 
   return (
     <div className="animate-in fade-in duration-500">
       <PageHeader 
-        title="Staff Attendance" 
-        subtitle="Real-time tracking of staff clock-in/out times and daily presence."
+        title={t('STAFF_ATTENDANCE')} 
+        subtitle={t('ATTENDANCE_DESC')}
         actions={
           <div className="flex items-center gap-3">
             <button className={cn(
@@ -51,11 +53,11 @@ const Attendance = () => {
               isDarkMode ? "bg-white/5 border-white/10 text-white hover:bg-white/10" : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 shadow-sm"
             )}>
               <Download className="w-4 h-4 mr-2" />
-              Monthly Report
+              {t('MONTHLY_REPORT')}
             </button>
             <button className="flex items-center px-4 py-2 bg-accent text-white rounded-2xl text-sm font-bold shadow-lg shadow-accent/20 hover:bg-accent-hover transition-all active:scale-95">
               <Plus className="w-4 h-4 mr-2" />
-              Manual Entry
+              {t('MANUAL_ENTRY')}
             </button>
           </div>
         }
@@ -100,7 +102,7 @@ const Attendance = () => {
                     : isDarkMode ? "bg-white/5 text-slate-400 hover:text-white" : "bg-slate-50 text-slate-500 hover:bg-slate-100"
                 )}
               >
-                {f}
+                {t(f.toUpperCase().replace(' ', '_'))}
               </button>
             ))}
           </div>
@@ -113,7 +115,7 @@ const Attendance = () => {
               <Search className="w-4 h-4 text-slate-400" />
               <input 
                 type="text" 
-                placeholder="Search by name or role..." 
+                placeholder={t('SEARCH_ATTENDANCE_PLACEHOLDER')} 
                 className="bg-transparent border-none outline-none text-sm text-slate-400 w-full" 
               />
             </div>
@@ -133,12 +135,12 @@ const Attendance = () => {
                 "border-b transition-colors",
                 isDarkMode ? "border-white/5 bg-white/[0.02]" : "border-slate-100 bg-slate-50/50"
               )}>
-                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Employee</th>
-                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
-                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Check-In</th>
-                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Check-Out</th>
-                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Location</th>
-                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Action</th>
+                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('EMPLOYEE')}</th>
+                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('STATUS')}</th>
+                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('CHECK_IN')}</th>
+                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('CHECK_OUT')}</th>
+                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('LOCATION')}</th>
+                <th className="px-6 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('ACTION')}</th>
               </tr>
             </thead>
             <tbody>

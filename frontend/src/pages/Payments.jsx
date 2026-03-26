@@ -21,6 +21,7 @@ import {
 import PageHeader from '../components/PageHeader';
 import { useTheme } from '../context/ThemeContext';
 import { cn } from '../utils/cn';
+import { useLanguage } from '../context/LanguageContext';
 
 const transactions = [
   { id: 'TX-9901', guest: 'John Doe', room: '101', amount: 4500, method: 'Credit Card', status: 'Success', date: '21 Mar, 2026 10:30 AM', type: 'Room Booking' },
@@ -32,21 +33,22 @@ const transactions = [
 ];
 
 const Payments = () => {
+  const { t } = useLanguage();
   const { isDarkMode } = useTheme();
   const [filter, setFilter] = useState('All');
 
   const stats = [
-    { label: 'Today Revenue', value: '₹18,240', trend: '+12.4%', up: true, icon: IndianRupee, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
-    { label: 'Pending Payouts', value: '₹4,500', trend: '-2.1%', up: false, icon: Clock, color: 'text-orange-500', bg: 'bg-orange-500/10' },
-    { label: 'Succesful Trans.', value: '142', trend: '+8.2%', up: true, icon: CheckCircle2, color: 'text-blue-500', bg: 'bg-blue-500/10' },
-    { label: 'Failed Trans.', value: '3', trend: '-5.4%', up: false, icon: AlertCircle, color: 'text-rose-500', bg: 'bg-rose-500/10' },
+    { label: t('TODAY_REVENUE'), value: '₹18,240', trend: '+12.4%', up: true, icon: IndianRupee, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
+    { label: t('PENDING_PAYOUTS'), value: '₹4,500', trend: '-2.1%', up: false, icon: Clock, color: 'text-orange-500', bg: 'bg-orange-500/10' },
+    { label: t('SUCCESSFUL_TRANS'), value: '142', trend: '+8.2%', up: true, icon: CheckCircle2, color: 'text-blue-500', bg: 'bg-blue-500/10' },
+    { label: t('FAILED_TRANS'), value: '3', trend: '-5.4%', up: false, icon: AlertCircle, color: 'text-rose-500', bg: 'bg-rose-500/10' },
   ];
 
   return (
     <div className="animate-in fade-in duration-500">
       <PageHeader 
-        title="Payment Ledger" 
-        subtitle="Detailed history of all guest transactions, including bookings, room service, and amenities."
+        title={t('PAYMENT_LEDGER')} 
+        subtitle={t('PAY_LEDGER_DESC')}
         actions={
           <div className="flex items-center gap-3">
             <button className={cn(
@@ -58,7 +60,7 @@ const Payments = () => {
             </button>
             <button className="flex items-center px-4 py-2 bg-accent text-white rounded-2xl text-sm font-bold shadow-lg shadow-accent/20 hover:bg-accent-hover transition-all active:scale-95">
               <Download className="w-4 h-4 mr-2" />
-              Export CSV
+              {t('EXPORT_CSV')}
             </button>
           </div>
         }
@@ -111,7 +113,7 @@ const Payments = () => {
                       : isDarkMode ? "bg-white/5 text-slate-400 hover:text-white" : "bg-slate-50 text-slate-500 hover:bg-slate-100"
                   )}
                 >
-                  {f}
+                  {t(f.toUpperCase())}
                 </button>
               ))}
             </div>
@@ -135,12 +137,12 @@ const Payments = () => {
                     "border-b uppercase text-[9px] font-bold tracking-widest text-slate-400",
                     isDarkMode ? "border-white/5 bg-white/[0.02]" : "border-slate-100 bg-slate-50/50"
                   )}>
-                    <th className="px-6 py-5">Guest & TX Details</th>
-                    <th className="px-6 py-5">Amount</th>
-                    <th className="px-6 py-5">Status</th>
-                    <th className="px-6 py-5">Type</th>
-                    <th className="px-6 py-5">Date</th>
-                    <th className="px-6 py-5">Method</th>
+                    <th className="px-6 py-5">{t('GUEST_TX_DETAILS')}</th>
+                    <th className="px-6 py-5">{t('AMOUNT')}</th>
+                    <th className="px-6 py-5">{t('STATUS')}</th>
+                    <th className="px-6 py-5">{t('TYPE')}</th>
+                    <th className="px-6 py-5">{t('DATE')}</th>
+                    <th className="px-6 py-5">{t('METHOD')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -177,7 +179,7 @@ const Payments = () => {
                           "bg-rose-500/10 text-rose-500"
                         )}>
                           <div className={cn("w-1.5 h-1.5 rounded-full shadow-sm", tx.status === 'Success' ? "bg-emerald-500" : tx.status === 'Pending' ? "bg-orange-500" : "bg-rose-500")} />
-                          {tx.status}
+                          {t(tx.status.toUpperCase())}
                         </span>
                       </td>
                       <td className="px-6 py-5">
@@ -199,7 +201,7 @@ const Payments = () => {
               </table>
             </div>
             <div className={cn("p-6 border-t font-bold text-xs text-center uppercase tracking-[0.2em] transition-colors cursor-pointer", isDarkMode ? "border-white/5 bg-white/[0.02] text-slate-400 hover:text-white hover:bg-white/5" : "border-slate-100 bg-slate-50/50 text-slate-500 hover:text-slate-900 hover:bg-slate-50")}>
-              View Comprehensive Ledger
+              {t('VIEW_COMPREHENSIVE_LEDGER')}
             </div>
           </div>
         </div>
@@ -212,13 +214,13 @@ const Payments = () => {
           )}>
             <h4 className={cn("font-bold text-sm mb-6 flex items-center gap-2 uppercase tracking-widest", isDarkMode ? "text-white" : "text-slate-900")}>
               <LayoutGrid size={16} className="text-accent" />
-              Quick Summary
+              {t('QUICK_SUMMARY')}
             </h4>
             <div className="space-y-6">
               {[
-                { label: 'Room Revenue', value: '₹1,42,000', percentage: '78%', color: 'bg-accent' },
-                { label: 'Services', value: '₹22,400', percentage: '12%', color: 'bg-purple-500' },
-                { label: 'Others', value: '₹18,100', percentage: '10%', color: 'bg-blue-500' },
+                { label: t('ROOM_REVENUE'), value: '₹1,42,000', percentage: '78%', color: 'bg-accent' },
+                { label: t('SERVICES'), value: '₹22,400', percentage: '12%', color: 'bg-purple-500' },
+                { label: t('OTHERS'), value: '₹18,100', percentage: '10%', color: 'bg-blue-500' },
               ].map((item, i) => (
                 <div key={i} className="space-y-2">
                   <div className="flex justify-between items-center text-xs font-bold">
@@ -243,13 +245,13 @@ const Payments = () => {
               <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-6">
                 <Globe className="w-6 h-6" />
               </div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-80 mb-2">Payout Method</p>
-              <h4 className="text-2xl font-bold tracking-tight mb-2">Connected Bank</h4>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-80 mb-2">{t('PAYOUT_METHOD')}</p>
+              <h4 className="text-2xl font-bold tracking-tight mb-2">{t('CONNECTED_BANK')}</h4>
               <p className="text-xs opacity-70 leading-relaxed font-medium">Auto-settlements are configured for Monday and Thursday at 11:00 AM IST.</p>
             </div>
 
             <button className="w-full py-4 bg-white text-accent rounded-2xl text-[11px] font-bold shadow-lg hover:scale-[1.02] transition-all active:scale-95 uppercase tracking-widest">
-              Manage Payouts
+              {t('MANAGE_PAYOUTS')}
             </button>
           </div>
         </div>

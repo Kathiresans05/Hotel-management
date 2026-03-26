@@ -23,6 +23,7 @@ import {
 import PageHeader from '../components/PageHeader';
 import KPIStatCard from '../components/KPIStatCard';
 import StatusBadge from '../components/StatusBadge';
+import { useLanguage } from '../context/LanguageContext';
 
 const data = [
   { name: 'Mon', revenue: 4000, bookings: 24, occupancy: 80 },
@@ -35,11 +36,13 @@ const data = [
 ];
 
 const Dashboard = () => {
+  const { t } = useLanguage();
+
   const kpis = [
-    { title: 'Total Revenue', value: '$24,500', trend: '+12.5%', trendType: 'up', icon: DollarSign, colorClass: 'bg-accent/10 text-accent' },
-    { title: 'Active Bookings', value: '48', trend: '+5.2%', trendType: 'up', icon: Calendar, colorClass: 'bg-purple/10 text-purple' },
-    { title: 'Room Occupancy', value: '85%', trend: '+8.1%', trendType: 'up', icon: Bed, colorClass: 'bg-success/10 text-success' },
-    { title: 'Total Staff', value: '12', trend: '0%', trendType: 'neutral', icon: Users, colorClass: 'bg-warning/10 text-warning' },
+    { title: t('TOTAL_REVENUE'), value: '$24,500', trend: 'up', trendValue: '12.5', icon: DollarSign, color: 'orange' },
+    { title: t('ACTIVE_BOOKINGS'), value: '48', trend: 'up', trendValue: '5.2', icon: Calendar, color: 'purple' },
+    { title: t('ROOM_OCCUPANCY'), value: '85%', trend: 'up', trendValue: '8.1', icon: Bed, color: 'green' },
+    { title: t('TOTAL_STAFF'), value: '12', trend: 'down', trendValue: '0', icon: Users, color: 'orange' },
   ];
 
   const recentBookings = [
@@ -52,17 +55,17 @@ const Dashboard = () => {
   return (
     <div className="animate-in fade-in duration-500">
       <PageHeader 
-        title="Executive Overview" 
-        subtitle="Welcome back, here's what's happening today."
+        title={t('EXECUTIVE_OVERVIEW')} 
+        subtitle={t('EXECUTIVE_OVERVIEW_DESC')}
         actions={
           <>
             <button className="flex items-center px-4 py-2 border border-border bg-surface rounded-button text-sm font-medium hover:bg-background transition-all">
               <Download className="w-4 h-4 mr-2" />
-              Reports
+              {t('REPORTS')}
             </button>
             <button className="flex items-center px-4 py-2 bg-primary text-white rounded-button text-sm font-medium hover:bg-primary-dark transition-all">
               <Plus className="w-4 h-4 mr-2" />
-              Add Staff
+              {t('ADD_STAFF')}
             </button>
           </>
         }
@@ -79,7 +82,7 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-surface p-6 rounded-card border border-border">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="font-bold text-lg text-text-primary">Revenue Trend</h3>
+            <h3 className="font-bold text-lg text-text-primary">{t('REVENUE_TREND')}</h3>
             <select className="bg-background border-none text-xs font-bold text-text-secondary rounded-lg px-2 py-1 outline-none">
               <option>Last 7 Days</option>
               <option>Last 30 Days</option>
@@ -109,7 +112,7 @@ const Dashboard = () => {
 
         <div className="bg-surface p-6 rounded-card border border-border">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="font-bold text-lg text-text-primary">Occupancy Rate</h3>
+            <h3 className="font-bold text-lg text-text-primary">{t('OCCUPANCY_RATE')}</h3>
             <select className="bg-background border-none text-xs font-bold text-text-secondary rounded-lg px-2 py-1 outline-none">
               <option>By Floor</option>
               <option>By Category</option>
@@ -136,18 +139,18 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-surface rounded-card border border-border overflow-hidden">
           <div className="p-6 border-b border-border flex items-center justify-between">
-            <h3 className="font-bold text-lg text-text-primary">Recent Bookings</h3>
-            <button className="text-accent text-sm font-bold hover:underline">View All</button>
+            <h3 className="font-bold text-lg text-text-primary">{t('RECENT_BOOKINGS')}</h3>
+            <button className="text-accent text-sm font-bold hover:underline">{t('VIEW_ALL')}</button>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
                 <tr className="bg-background">
-                  <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase tracking-wider">ID</th>
-                  <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase tracking-wider">Guest</th>
-                  <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase tracking-wider">Room</th>
-                  <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase tracking-wider text-right">Amount</th>
+                  <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase tracking-wider">{t('ID')}</th>
+                  <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase tracking-wider">{t('GUEST')}</th>
+                  <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase tracking-wider">{t('ROOM')}</th>
+                  <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase tracking-wider">{t('STATUS')}</th>
+                  <th className="px-6 py-4 text-xs font-bold text-text-secondary uppercase tracking-wider text-right">{t('AMOUNT')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -155,7 +158,7 @@ const Dashboard = () => {
                   <tr key={booking.id} className="hover:bg-background/50 transition-colors">
                     <td className="px-6 py-4 text-sm font-bold text-primary">{booking.id}</td>
                     <td className="px-6 py-4 text-sm font-medium text-text-primary">{booking.guest}</td>
-                    <td className="px-6 py-4 text-sm text-text-secondary">Room {booking.room}</td>
+                    <td className="px-6 py-4 text-sm text-text-secondary">{t('ROOM')} {booking.room}</td>
                     <td className="px-6 py-4">
                       <StatusBadge status={booking.status} />
                     </td>
@@ -168,7 +171,7 @@ const Dashboard = () => {
         </div>
 
         <div className="bg-surface p-6 rounded-card border border-border">
-          <h3 className="font-bold text-lg text-text-primary mb-6">Live Activity</h3>
+          <h3 className="font-bold text-lg text-text-primary mb-6">{t('LIVE_ACTIVITY')}</h3>
           <div className="space-y-6">
             {[1, 2, 3, 4].map((item) => (
               <div key={item} className="flex space-x-4">
@@ -185,7 +188,7 @@ const Dashboard = () => {
             ))}
           </div>
           <button className="w-full mt-6 py-3 bg-background text-text-secondary rounded-xl text-sm font-bold hover:bg-border transition-all">
-            See Full Activity Log
+            {t('SEE_FULL_ACTIVITY_LOG')}
           </button>
         </div>
       </div>

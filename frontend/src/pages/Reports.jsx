@@ -11,20 +11,22 @@ import {
   BarChart4
 } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
+import { useLanguage } from '../context/LanguageContext';
 
 const Reports = () => {
+  const { t } = useLanguage();
   const reportTypes = [
-    { title: 'Revenue & Financials', desc: 'Daily earnings, taxes and profit margins', icon: TrendingUp, color: 'bg-success/10 text-success' },
-    { title: 'Occupancy Analysis', desc: 'Room utilization and booking cycles', icon: Layers, color: 'bg-accent/10 text-accent' },
-    { title: 'Guest Insights', desc: 'Demographics and loyalty statistics', icon: BarChart4, color: 'bg-purple/10 text-purple' },
-    { title: 'Operational Log', desc: 'Staff activity and audit trails', icon: FileText, color: 'bg-warning/10 text-warning' },
+    { title: t('REVENUE_FINANCIALS'), desc: t('REVENUE_FINANCIALS_DESC'), icon: TrendingUp, color: 'bg-success/10 text-success' },
+    { title: t('OCCUPANCY_ANALYSIS'), desc: t('OCCUPANCY_ANALYSIS_DESC'), icon: Layers, color: 'bg-accent/10 text-accent' },
+    { title: t('GUEST_INSIGHTS'), desc: t('GUEST_INSIGHTS_DESC'), icon: BarChart4, color: 'bg-purple/10 text-purple' },
+    { title: t('OPERATIONAL_LOG'), desc: t('OPERATIONAL_LOG_DESC'), icon: FileText, color: 'bg-warning/10 text-warning' },
   ];
 
   return (
     <div className="animate-in fade-in duration-500">
       <PageHeader 
-        title="Reports Center" 
-        subtitle="Generate and export business intelligence reports for strategic planning."
+        title={t('REPORTS_CENTER')} 
+        subtitle={t('REPORTS_DESC')}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
@@ -42,19 +44,19 @@ const Reports = () => {
       <div className="bg-surface rounded-card border border-border">
         <div className="p-6 border-b border-border flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-center space-x-3">
-            <h3 className="font-bold text-lg text-text-primary">Recent Reports</h3>
+            <h3 className="font-bold text-lg text-text-primary">{t('RECENT_REPORTS')}</h3>
             <div className="flex bg-background p-1 rounded-lg border border-border">
-              <button className="px-3 py-1 text-[10px] font-bold bg-surface border border-border rounded-md uppercase">All</button>
-              <button className="px-3 py-1 text-[10px] font-bold text-text-secondary hover:text-primary uppercase">Scheduled</button>
+              <button className="px-3 py-1 text-[10px] font-bold bg-surface border border-border rounded-md uppercase">{t('ALL')}</button>
+              <button className="px-3 py-1 text-[10px] font-bold text-text-secondary hover:text-primary uppercase">{t('SCHEDULED')}</button>
             </div>
           </div>
           <div className="flex items-center space-x-3">
             <div className="relative">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary" />
-              <input type="text" placeholder="Search report name..." className="pl-9 pr-4 py-2 bg-background border-none rounded-lg text-xs outline-none w-48" />
+              <input type="text" placeholder={t('SEARCH_REPORT_PLACEHOLDER')} className="pl-9 pr-4 py-2 bg-background border-none rounded-lg text-xs outline-none w-48" />
             </div>
             <button className="flex items-center px-4 py-2 bg-primary text-white rounded-lg text-xs font-bold hover:bg-primary-dark transition-all">
-              Generate Custom
+              {t('GENERATE_CUSTOM')}
             </button>
           </div>
         </div>

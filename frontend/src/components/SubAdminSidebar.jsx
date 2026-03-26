@@ -21,10 +21,12 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { cn } from '../utils/cn';
 
 const SubAdminSidebar = ({ isOpen, setIsOpen }) => {
   const { logout } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -34,12 +36,12 @@ const SubAdminSidebar = ({ isOpen, setIsOpen }) => {
 
   const menuSections = [
     {
-      section: 'OVERVIEW',
+      section: t('OVERVIEW'),
       items: [
-        { name: 'Dashboard', icon: LayoutDashboard, path: '/sub-admin/dashboard' },
-        { name: 'Analytics', icon: BarChart3, path: '/sub-admin/analytics' },
+        { name: t('DASHBOARD'), icon: LayoutDashboard, path: '/sub-admin/dashboard' },
+        { name: t('ANALYTICS'), icon: BarChart3, path: '/sub-admin/analytics' },
         {
-          name: 'Notifications',
+          name: t('NOTIFICATIONS'),
           icon: Bell,
           path: '/sub-admin/notifications',
           badge: { text: '3', bgColor: 'rgba(249, 115, 22, 0.15)', textColor: '#F97316' },
@@ -47,40 +49,40 @@ const SubAdminSidebar = ({ isOpen, setIsOpen }) => {
       ],
     },
     {
-      section: 'OPERATIONS',
+      section: t('OPERATIONS'),
       items: [
-        { name: 'Rooms', icon: Bed, path: '/sub-admin/rooms' },
+        { name: t('ROOMS'), icon: Bed, path: '/sub-admin/rooms' },
         {
-          name: 'Bookings',
+          name: t('BOOKINGS'),
           icon: CalendarCheck,
           path: '/sub-admin/bookings',
           badge: { text: '8', bgColor: 'rgba(34, 197, 94, 0.15)', textColor: '#22C55E' },
         },
-        { name: 'Check-In / Out', icon: CheckCircle2, path: '/sub-admin/check-in' },
-        { name: 'Customers', icon: Users, path: '/sub-admin/customers' },
-        { name: 'Services', icon: ListTodo, path: '/sub-admin/services' },
+        { name: t('CHECK_IN_OUT'), icon: CheckCircle2, path: '/sub-admin/check-in' },
+        { name: t('CUSTOMERS'), icon: Users, path: '/sub-admin/customers' },
+        { name: t('SERVICES'), icon: ListTodo, path: '/sub-admin/services' },
       ],
     },
     {
-      section: 'PEOPLE MANAGEMENT',
+      section: t('PEOPLE_MANAGEMENT'),
       items: [
-        { name: 'Staff', icon: Users2, path: '/sub-admin/staff' },
-        { name: 'Attendance', icon: Fingerprint, path: '/sub-admin/attendance' },
-        { name: 'Payroll', icon: Banknote, path: '/sub-admin/payroll' },
+        { name: t('STAFF'), icon: Users2, path: '/sub-admin/staff' },
+        { name: t('ATTENDANCE'), icon: Fingerprint, path: '/sub-admin/attendance' },
+        { name: t('PAYROLL'), icon: Banknote, path: '/sub-admin/payroll' },
       ],
     },
     {
-      section: 'FINANCE',
+      section: t('FINANCE'),
       items: [
-        { name: 'Billing', icon: CreditCard, path: '/sub-admin/billing' },
+        { name: t('BILLING'), icon: CreditCard, path: '/sub-admin/billing' },
         {
-          name: 'Payments',
+          name: t('PAYMENTS'),
           icon: Wallet,
           path: '/sub-admin/payments',
           badge: { text: 'Pending', bgColor: 'rgba(249, 115, 22, 0.15)', textColor: '#F97316' },
         },
-        { name: 'Expenses', icon: Receipt, path: '/sub-admin/expenses' },
-        { name: 'Reports', icon: ClipboardList, path: '/sub-admin/reports' },
+        { name: t('EXPENSES'), icon: Receipt, path: '/sub-admin/expenses' },
+        { name: t('REPORTS'), icon: ClipboardList, path: '/sub-admin/reports' },
       ],
     },
   ];
@@ -190,11 +192,11 @@ const SubAdminSidebar = ({ isOpen, setIsOpen }) => {
           className="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-[#EF4444] hover:bg-[#EF4444]/10 transition-all group"
         >
           <LogOut className="w-[22px] h-[22px] shrink-0 group-hover:rotate-12 transition-transform" />
-          {isOpen && <span className="font-medium text-[15px] tracking-wide">Sign Out</span>}
+          {isOpen && <span className="font-medium text-[15px] tracking-wide">{t('SIGN_OUT')}</span>}
           
           {!isOpen && (
             <div className="absolute left-16 px-3 py-2 bg-[#0F172A] border border-white/10 text-[#EF4444] text-[13px] font-medium rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all whitespace-nowrap z-[100] shadow-2xl">
-              Sign Out
+              {t('SIGN_OUT')}
             </div>
           )}
         </button>

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ShieldCheck, ArrowRight, RefreshCcw, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const VerifyOTP = () => {
+  const { t } = useLanguage();
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [timer, setTimer] = useState(59);
   const [error, setError] = useState('');
@@ -62,9 +64,9 @@ const VerifyOTP = () => {
           <ShieldCheck className="w-8 h-8" />
         </div>
 
-        <h2 className="text-3xl font-poppins font-bold text-text-primary tracking-tight">Security Check</h2>
+        <h2 className="text-3xl font-poppins font-bold text-text-primary tracking-tight">{t('SECURITY_CHECK')}</h2>
         <p className="text-text-secondary mt-3 text-sm leading-relaxed px-4">
-          We've sent a 6-digit verification code to <span className="text-text-primary font-bold">{email}</span>
+          {t('OTP_SENT_DESC')} <span className="text-text-primary font-bold">{email}</span>
         </p>
 
         {error && (
@@ -99,23 +101,23 @@ const VerifyOTP = () => {
           disabled={loading}
           className="w-full py-4.5 bg-accent text-white font-bold rounded-2xl hover:bg-accent-hover transition-all transform active:scale-[0.98] flex items-center justify-center group mb-8 disabled:opacity-50 disabled:active:scale-100 shadow-lg shadow-accent/20"
         >
-          {loading ? 'Verifying Identity...' : 'Verify and Continue'}
+          {loading ? t('VERIFYING_IDENTITY') : t('VERIFY_AND_CONTINUE')}
           {!loading && <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1.5 transition-transform" />}
         </button>
 
         <div className="flex flex-col items-center space-y-6">
           <div className="flex items-center text-sm font-medium">
             {timer > 0 ? (
-              <span className="text-text-secondary/80">Resend code in <span className="text-accent font-bold ml-1">0:{timer < 10 ? `0${timer}` : timer}</span></span>
+              <span className="text-text-secondary/80">{t('RESEND_CODE_IN')} <span className="text-accent font-bold ml-1">0:{timer < 10 ? `0${timer}` : timer}</span></span>
             ) : (
               <button className="text-accent font-bold hover:text-accent-hover transition-colors flex items-center">
                 <RefreshCcw className="w-3.5 h-3.5 mr-2" />
-                Resend Verification Code
+                {t('RESEND_VERIFICATION_CODE')}
               </button>
             )}
           </div>
           <button className="text-[10px] font-bold text-text-secondary/50 uppercase tracking-[0.2em] hover:text-text-primary transition-all duration-300 py-2">
-            Try another method
+            {t('TRY_ANOTHER_METHOD')}
           </button>
         </div>
       </div>

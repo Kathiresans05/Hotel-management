@@ -27,6 +27,7 @@ import {
 import PageHeader from '../components/PageHeader';
 import KPIStatCard from '../components/KPIStatCard';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 import { cn } from '../utils/cn';
 
 const revenueData = [
@@ -50,12 +51,13 @@ const COLORS = ['#F97316', '#8B5CF6', '#10B981', '#F59E0B'];
 const Analytics = () => {
   const [timeRange, setTimeRange] = useState('6m');
   const { isDarkMode } = useTheme();
+  const { t } = useLanguage();
 
   return (
     <div className="animate-in fade-in duration-500">
       <PageHeader 
-        title="Business Intelligence" 
-        subtitle="Comprehensive analysis of revenue, occupancy and market trends."
+        title={t('BUSINESS_INTELLIGENCE')} 
+        subtitle={t('BI_DESC')}
         actions={
           <div className="flex items-center space-x-3">
             <div className={cn(
@@ -71,7 +73,7 @@ const Analytics = () => {
                     : "text-slate-400 hover:text-accent"
                 )}
               >
-                Last 6 Months
+                {t('LAST_6_MONTHS')}
               </button>
               <button 
                 onClick={() => setTimeRange('custom')}
@@ -82,12 +84,12 @@ const Analytics = () => {
                     : "text-slate-400 hover:text-accent"
                 )}
               >
-                Custom
+                {t('CUSTOM')}
               </button>
             </div>
             <button className="flex items-center px-4 py-2 bg-accent text-white rounded-2xl text-sm font-bold shadow-lg shadow-accent/20 hover:bg-accent-hover hover:-translate-y-0.5 transition-all active:scale-95">
               <Download className="w-4 h-4 mr-2" />
-              Export Report
+              {t('EXPORT_REPORT')}
             </button>
           </div>
         }
@@ -95,10 +97,10 @@ const Analytics = () => {
 
       {/* Analytics KPIs */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <KPIStatCard title="Revenue Growth" value="+24.8%" trend="vs last month" trendType="up" icon={TrendingUp} color="blue" />
-        <KPIStatCard title="Avg Booking Value" value="₹1,250" trend="+12.1%" trendType="up" icon={CreditCard} color="purple" />
-        <KPIStatCard title="Net Profit Margin" value="18.2%" trend="-0.5%" trendType="down" icon={TrendingUp} color="green" />
-        <KPIStatCard title="New Customers" value="482" trend="+18.5%" trendType="up" icon={Users} color="orange" />
+        <KPIStatCard title={t('REVENUE_GROWTH')} value="+24.8%" trend="vs last month" trendType="up" icon={TrendingUp} color="blue" />
+        <KPIStatCard title={t('AVG_BOOKING_VALUE')} value="₹1,250" trend="+12.1%" trendType="up" icon={CreditCard} color="purple" />
+        <KPIStatCard title={t('NET_PROFIT_MARGIN')} value="18.2%" trend="-0.5%" trendType="down" icon={TrendingUp} color="green" />
+        <KPIStatCard title={t('NEW_CUSTOMERS')} value="482" trend="+18.5%" trendType="up" icon={Users} color="orange" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
@@ -109,17 +111,17 @@ const Analytics = () => {
         )}>
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h3 className={cn("font-bold text-lg", isDarkMode ? "text-white" : "text-slate-900")}>Revenue vs Target</h3>
-              <p className="text-xs text-slate-400">Comparing monthly earnings against set objectives.</p>
+              <h3 className={cn("font-bold text-lg", isDarkMode ? "text-white" : "text-slate-900")}>{t('REVENUE_VS_TARGET')}</h3>
+              <p className="text-xs text-slate-400">{t('REVENUE_TARGET_DESC')}</p>
             </div>
             <div className="flex items-center space-x-4">
               <div className="flex items-center">
                 <div className="w-3 h-3 bg-accent rounded-full mr-2"></div>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Revenue</span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('REVENUE')}</span>
               </div>
               <div className="flex items-center">
                 <div className={cn("w-3 h-3 rounded-full mr-2", isDarkMode ? "bg-white/10" : "bg-slate-200")}></div>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Target</span>
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('TARGET')}</span>
               </div>
             </div>
           </div>
@@ -156,8 +158,8 @@ const Analytics = () => {
           "p-6 rounded-3xl border shadow-sm transition-colors",
           isDarkMode ? "bg-[#0F172A]/40 border-white/5" : "bg-white border-slate-200"
         )}>
-          <h3 className={cn("font-bold text-lg", isDarkMode ? "text-white" : "text-slate-900")}>Room Performance</h3>
-          <p className="text-xs text-slate-400 mb-8">Revenue distribution by room category.</p>
+          <h3 className={cn("font-bold text-lg", isDarkMode ? "text-white" : "text-slate-900")}>{t('ROOM_PERFORMANCE')}</h3>
+          <p className="text-xs text-slate-400 mb-8">{t('ROOM_PERF_DESC')}</p>
           <div className="h-[250px] relative">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -186,7 +188,7 @@ const Analytics = () => {
             </ResponsiveContainer>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
               <p className={cn("text-3xl font-bold", isDarkMode ? "text-white" : "text-slate-900")}>100%</p>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total</p>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('TOTAL')}</p>
             </div>
           </div>
           <div className="mt-8 space-y-4">
@@ -194,7 +196,7 @@ const Analytics = () => {
               <div key={item.name} className="flex items-center justify-between group">
                 <div className="flex items-center">
                   <div className="w-2.5 h-2.5 rounded-full mr-3 shadow-lg" style={{ backgroundColor: COLORS[idx], boxShadow: `0 0 10px ${COLORS[idx]}40` }}></div>
-                  <span className={cn("text-xs font-semibold tracking-wide", isDarkMode ? "text-white/70" : "text-slate-600")}>{item.name}</span>
+                   <span className={cn("text-xs font-semibold tracking-wide", isDarkMode ? "text-white/70" : "text-slate-600")}>{t(item.name.toUpperCase())}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className={cn("h-1 w-12 rounded-full", isDarkMode ? "bg-white/5" : "bg-slate-100")}>
@@ -213,19 +215,19 @@ const Analytics = () => {
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-bl-full -mr-8 -mt-8 transition-transform duration-700 group-hover:scale-110" />
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-8">
-              <h3 className="font-bold text-xl">Occupancy Insights</h3>
+              <h3 className="font-bold text-xl">{t('OCCUPANCY_INSIGHTS')}</h3>
               <div className="p-2.5 bg-white/20 rounded-xl backdrop-blur-md">
                 <Info className="w-5 h-5" />
               </div>
             </div>
             <div className="space-y-8">
               <div>
-                <div className="flex justify-between text-[10px] font-bold mb-3 uppercase tracking-[0.2em] opacity-80">Peak Capacity</div>
-                <div className="text-4xl font-bold tracking-tight">Week 12 <span className="text-sm font-medium opacity-70 ml-2 tracking-normal">(98.2%)</span></div>
+                <div className="flex justify-between text-[10px] font-bold mb-3 uppercase tracking-[0.2em] opacity-80">{t('PEAK_CAPACITY')}</div>
+                <div className="text-4xl font-bold tracking-tight">{t('WEEK')} 12 <span className="text-sm font-medium opacity-70 ml-2 tracking-normal">(98.2%)</span></div>
               </div>
               <div className="pt-8 border-t border-white/20">
                 <p className="text-sm font-medium leading-relaxed italic opacity-90">
-                  "We observed a 15% increase in weekend bookings following the implementation of our new loyalty pricing strategy."
+                  "{t('OCCUPANCY_INSIGHT_TEXT')}"
                 </p>
               </div>
             </div>
@@ -237,9 +239,9 @@ const Analytics = () => {
           isDarkMode ? "bg-[#0F172A]/40 border-white/5" : "bg-white border-slate-200"
         )}>
           <div className="flex items-center justify-between mb-8">
-            <h3 className={cn("font-bold text-lg", isDarkMode ? "text-white" : "text-slate-900")}>Booking Intensity</h3>
+            <h3 className={cn("font-bold text-lg", isDarkMode ? "text-white" : "text-slate-900")}>{t('BOOKING_INTENSITY')}</h3>
             <button className="text-accent text-[11px] font-bold uppercase tracking-widest hover:underline flex items-center group">
-              Full Breakdown <ChevronDown className="w-4 h-4 ml-1.5 transition-transform group-hover:translate-y-0.5" />
+              {t('FULL_BREAKDOWN')} <ChevronDown className="w-4 h-4 ml-1.5 transition-transform group-hover:translate-y-0.5" />
             </button>
           </div>
           <div className="h-[220px]">

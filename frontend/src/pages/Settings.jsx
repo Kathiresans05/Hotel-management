@@ -16,22 +16,24 @@ import {
 import PageHeader from '../components/PageHeader';
 import { useTheme } from '../context/ThemeContext';
 import { cn } from '../utils/cn';
+import { useLanguage } from '../context/LanguageContext';
 
 const Settings = () => {
   const { isDarkMode, toggleTheme } = useTheme();
+  const { t } = useLanguage();
   const sections = [
-    { id: 'general', title: 'General', icon: SettingsIcon },
-    { id: 'security', title: 'Permissions & Security', icon: Shield },
-    { id: 'notifications', title: 'Notifications', icon: Bell },
-    { id: 'branding', title: 'Brand Identity', icon: Palette },
-    { id: 'backup', title: 'Backup & Restore', icon: Cloud },
+    { id: 'general', title: t('GENERAL'), icon: SettingsIcon },
+    { id: 'security', title: t('PERMISSIONS_SECURITY'), icon: Shield },
+    { id: 'notifications', title: t('NOTIFICATIONS'), icon: Bell },
+    { id: 'branding', title: t('BRAND_IDENTITY'), icon: Palette },
+    { id: 'backup', title: t('BACKUP_RESTORE_MENU'), icon: Cloud },
   ];
 
   return (
     <div className="animate-in fade-in duration-500">
       <PageHeader 
-        title="System Settings" 
-        subtitle="Configure application preferences, security protocols and notifications."
+        title={t('SYSTEM_SETTINGS')} 
+        subtitle={t('SYSTEM_SETTINGS_DESC')}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -60,21 +62,21 @@ const Settings = () => {
         <div className="lg:col-span-3 space-y-6">
           <div className="bg-surface rounded-card border border-border overflow-hidden">
             <div className="p-6 border-b border-border flex justify-between items-center">
-              <h3 className="font-bold text-text-primary uppercase tracking-widest text-xs">General Application Config</h3>
+              <h3 className="font-bold text-text-primary uppercase tracking-widest text-xs">{t('GENERAL_APPLICATION_CONFIG')}</h3>
               <button className="flex items-center px-4 py-2 bg-success text-white rounded-lg text-xs font-bold hover:bg-success-dark transition-all">
                 <Save className="w-4 h-4 mr-2" />
-                Save Changes
+                {t('SAVE_CHANGES')}
               </button>
             </div>
             
             <div className="p-8 space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-text-secondary uppercase">Organization Name</label>
+                  <label className="text-xs font-bold text-text-secondary uppercase">{t('ORGANIZATION_NAME')}</label>
                   <input type="text" defaultValue="HostelPro Management" className="w-full px-4 py-2.5 bg-background border border-transparent rounded-input text-text-primary focus:bg-surface focus:border-accent/40 outline-none transition-all" />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-text-secondary uppercase">Contact Email</label>
+                  <label className="text-xs font-bold text-text-secondary uppercase">{t('CONTACT_EMAIL')}</label>
                   <input type="email" defaultValue="admin@hostelpro.io" className="w-full px-4 py-2.5 bg-background border border-transparent rounded-input text-text-primary focus:bg-surface focus:border-accent/40 outline-none transition-all" />
                 </div>
               </div>
@@ -86,8 +88,8 @@ const Settings = () => {
                       <Smartphone className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-text-primary">OTP Verification</p>
-                      <p className="text-[10px] text-text-secondary italic">Ensure two-factor authentication for staff login.</p>
+                      <p className="text-sm font-bold text-text-primary">{t('OTP_VERIFICATION')}</p>
+                      <p className="text-[10px] text-text-secondary italic">{t('OTP_DESC')}</p>
                     </div>
                   </div>
                   <div className="w-11 h-6 bg-accent rounded-full relative cursor-pointer">
@@ -101,8 +103,8 @@ const Settings = () => {
                       <Moon className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-text-primary">Dark Mode Interface</p>
-                      <p className="text-[10px] text-text-secondary italic">Set dashboard to dark theme by default.</p>
+                      <p className="text-sm font-bold text-text-primary">{t('DARK_MODE')}</p>
+                      <p className="text-[10px] text-text-secondary italic">{t('DARK_MODE_DESC')}</p>
                     </div>
                   </div>
                   <div 
@@ -125,8 +127,8 @@ const Settings = () => {
                       <Globe className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-text-primary">Auto Backup</p>
-                      <p className="text-[10px] text-text-secondary italic">Daily database backups to secure cloud storage.</p>
+                      <p className="text-sm font-bold text-text-primary">{t('AUTO_BACKUP')}</p>
+                      <p className="text-[10px] text-text-secondary italic">{t('AUTO_BACKUP_DESC')}</p>
                     </div>
                   </div>
                   <div className="w-11 h-6 bg-accent rounded-full relative cursor-pointer">

@@ -19,6 +19,7 @@ import KPIStatCard from '../components/KPIStatCard';
 import StatusBadge from '../components/StatusBadge';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { useLanguage } from '../context/LanguageContext';
 
 import AddRoomModal from '../components/forms/AddRoomModal';
 
@@ -27,31 +28,32 @@ function cn(...inputs) {
 }
 
 const RoomCard = ({ room }) => {
+  const { t } = useLanguage();
   return (
     <div className="bg-surface rounded-card border border-border overflow-hidden transition-all duration-300 group cursor-pointer">
       <div className="p-5">
         <div className="flex justify-between items-start mb-4">
           <div>
-            <h4 className="text-xl font-bold text-text-primary tracking-tight">Room {room.number}</h4>
-            <p className="text-xs font-medium text-text-secondary uppercase tracking-widest mt-1">Floor {room.floor} • {room.type}</p>
+            <h4 className="text-xl font-bold text-text-primary tracking-tight">{t('ROOM')} {room.number}</h4>
+            <p className="text-xs font-medium text-text-secondary uppercase tracking-widest mt-1">{t('FLOOR')} {room.floor} • {room.type}</p>
           </div>
           <StatusBadge status={room.status} />
         </div>
 
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div className="bg-background/50 p-2.5 rounded-xl border border-border/50">
-            <p className="text-[10px] font-bold text-text-secondary uppercase">Price</p>
-            <p className="text-sm font-bold text-text-primary mt-0.5">${room.price}<span className="text-[10px] text-text-secondary font-medium lowercase">/ night</span></p>
+            <p className="text-[10px] font-bold text-text-secondary uppercase">{t('PRICE')}</p>
+            <p className="text-sm font-bold text-text-primary mt-0.5">${room.price}<span className="text-[10px] text-text-secondary font-medium lowercase">/ {t('NIGHT')}</span></p>
           </div>
           <div className="bg-background/50 p-2.5 rounded-xl border border-border/50">
-            <p className="text-[10px] font-bold text-text-secondary uppercase">Occupancy</p>
+            <p className="text-[10px] font-bold text-text-secondary uppercase">{t('ROOM_OCCUPANCY')}</p>
             <p className="text-sm font-bold text-text-primary mt-0.5">{room.occupancy}</p>
           </div>
         </div>
 
         <div className="flex items-center space-x-2 pt-4 border-t border-border/50 mt-2">
           <button className="flex-1 py-2.5 bg-slate-900 dark:bg-white dark:text-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 transition-all">
-            Book Now
+            {t('BOOK_NOW')}
           </button>
           <button className="p-2.5 border border-border text-text-secondary rounded-xl hover:bg-background transition-all flex items-center justify-center">
             <Info className="w-4 h-4" />
@@ -63,6 +65,7 @@ const RoomCard = ({ room }) => {
 };
 
 const Rooms = () => {
+  const { t } = useLanguage();
   const [activeFloor, setActiveFloor] = useState('Floor 1');
   const [viewMode, setViewMode] = useState('grid');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -98,25 +101,25 @@ const Rooms = () => {
   });
 
   const stats = [
-    { label: 'Total', value: allRooms.length, icon: Hotel, colorClass: 'bg-primary/10 text-primary' },
-    { label: 'Available', value: allRooms.filter(r => r.status === 'Available').length, icon: CheckCircle, colorClass: 'bg-emerald-500/10 text-emerald-500' },
-    { label: 'Occupied', value: allRooms.filter(r => r.status === 'Occupied').length, icon: UserCheck, colorClass: 'bg-rose-500/10 text-rose-500' },
-    { label: 'Cleaning', value: allRooms.filter(r => r.status === 'Cleaning').length, icon: Sparkles, colorClass: 'bg-amber-500/10 text-amber-500' },
-    { label: 'Maintenance', value: allRooms.filter(r => r.status === 'Maintenance').length, icon: Wrench, colorClass: 'bg-blue-500/10 text-blue-500' },
+    { label: t('TOTAL'), value: allRooms.length, icon: Hotel, colorClass: 'bg-primary/10 text-primary' },
+    { label: t('AVAILABLE'), value: allRooms.filter(r => r.status === 'Available').length, icon: CheckCircle, colorClass: 'bg-emerald-500/10 text-emerald-500' },
+    { label: t('OCCUPIED'), value: allRooms.filter(r => r.status === 'Occupied').length, icon: UserCheck, colorClass: 'bg-rose-500/10 text-rose-500' },
+    { label: t('CLEANING'), value: allRooms.filter(r => r.status === 'Cleaning').length, icon: Sparkles, colorClass: 'bg-amber-500/10 text-amber-500' },
+    { label: t('MAINTENANCE'), value: allRooms.filter(r => r.status === 'Maintenance').length, icon: Wrench, colorClass: 'bg-blue-500/10 text-blue-500' },
   ];
 
   return (
     <div className="animate-in fade-in duration-500">
       <PageHeader 
-        title="Room Control Center" 
-        subtitle="Manage rooms, availability and cleaning status across floors."
+        title={t('ROOM_CONTROL_CENTER')} 
+        subtitle={t('ROOM_CONTROL_DESC')}
         actions={
           <button 
             onClick={() => setIsModalOpen(true)}
             className="flex items-center px-4 py-2 bg-primary text-white rounded-button text-sm font-medium hover:bg-primary-dark transition-all"
           >
             <Plus className="w-4 h-4 mr-2" />
-            Add New Room
+            {t('ADD_NEW_ROOM_BTN')}
           </button>
         }
       />
@@ -162,7 +165,7 @@ const Rooms = () => {
                 type="text" 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search room #" 
+                placeholder={t('SEARCH_ROOM_NUMBER')} 
                 className="pl-10 pr-4 py-2 bg-background border border-transparent focus:border-accent/20 rounded-lg text-sm outline-none w-full sm:w-48 transition-all"
               />
             </div>
@@ -181,7 +184,7 @@ const Rooms = () => {
               
               {isFilterOpen && (
                 <div className="absolute right-0 top-full mt-2 w-48 bg-surface border border-border rounded-xl shadow-xl z-50 p-2 animate-in fade-in slide-in-from-top-2">
-                  <p className="text-[10px] font-bold text-text-secondary uppercase tracking-widest px-3 py-2">Filter by Status</p>
+                  <p className="text-[10px] font-bold text-text-secondary uppercase tracking-widest px-3 py-2">{t('FILTER_BY_STATUS')}</p>
                   {statuses.map((status) => (
                     <button
                       key={status}
@@ -223,13 +226,13 @@ const Rooms = () => {
       {filteredRooms.length === 0 ? (
         <div className="py-20 text-center bg-surface rounded-card border border-border border-dashed">
             <Search className="w-10 h-10 mx-auto text-text-secondary mb-4 opacity-50" />
-            <h3 className="text-lg font-bold text-text-primary mb-1">No rooms found</h3>
-            <p className="text-text-secondary text-sm">Try adjusting your filters or search query.</p>
+            <h3 className="text-lg font-bold text-text-primary mb-1">{t('NO_ROOMS_FOUND')}</h3>
+            <p className="text-text-secondary text-sm">{t('ADJUST_FILTERS_DESC')}</p>
             <button 
               onClick={() => { setActiveFloor('All'); setSearchQuery(''); setStatusFilter('All'); }}
               className="mt-6 px-4 py-2 bg-background border border-border rounded-lg text-sm font-medium hover:bg-surface text-text-primary transition-all"
             >
-              Clear all filters
+              {t('CLEAR_ALL_FILTERS')}
             </button>
         </div>
       ) : viewMode === 'grid' ? (
@@ -244,18 +247,18 @@ const Rooms = () => {
             <table className="w-full text-left whitespace-nowrap">
               <thead>
                 <tr className="bg-background border-b border-border">
-                  <th className="px-6 py-4 text-[10px] font-bold text-text-secondary uppercase tracking-widest">Room</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-text-secondary uppercase tracking-widest">Type</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-text-secondary uppercase tracking-widest">Floor</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-text-secondary uppercase tracking-widest">Price</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-text-secondary uppercase tracking-widest">Status</th>
-                  <th className="px-6 py-4 text-[10px] font-bold text-text-secondary uppercase tracking-widest text-right">Actions</th>
+                  <th className="px-6 py-4 text-[10px] font-bold text-text-secondary uppercase tracking-widest">{t('ROOM')}</th>
+                  <th className="px-6 py-4 text-[10px] font-bold text-text-secondary uppercase tracking-widest">{t('TYPE')}</th>
+                  <th className="px-6 py-4 text-[10px] font-bold text-text-secondary uppercase tracking-widest">{t('FLOOR')}</th>
+                  <th className="px-6 py-4 text-[10px] font-bold text-text-secondary uppercase tracking-widest">{t('PRICE')}</th>
+                  <th className="px-6 py-4 text-[10px] font-bold text-text-secondary uppercase tracking-widest">{t('STATUS')}</th>
+                  <th className="px-6 py-4 text-[10px] font-bold text-text-secondary uppercase tracking-widest text-right">{t('ACTIONS')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/50">
                 {filteredRooms.map((room) => (
                   <tr key={room.number} className="hover:bg-background/80 transition-colors group">
-                    <td className="px-6 py-5 text-sm font-bold text-primary">Room {room.number}</td>
+                    <td className="px-6 py-5 text-sm font-bold text-primary">{t('ROOM')} {room.number}</td>
                     <td className="px-6 py-5 text-sm font-bold text-text-primary">{room.type}</td>
                     <td className="px-6 py-5 text-sm font-medium text-text-secondary flex items-center gap-2">
                         <div className="w-6 h-6 rounded bg-background flex items-center justify-center border border-border font-bold text-xs">{room.floor}</div>
@@ -265,7 +268,7 @@ const Rooms = () => {
                       <StatusBadge status={room.status} />
                     </td>
                     <td className="px-6 py-5 text-right">
-                      <button className="px-3 py-1.5 bg-background border border-border rounded-lg text-xs font-bold hover:bg-primary/5 hover:text-primary transition-colors hover:border-primary/20 opacity-0 group-hover:opacity-100">Manage</button>
+                      <button className="px-3 py-1.5 bg-background border border-border rounded-lg text-xs font-bold hover:bg-primary/5 hover:text-primary transition-colors hover:border-primary/20 opacity-0 group-hover:opacity-100">{t('MANAGE')}</button>
                     </td>
                   </tr>
                 ))}

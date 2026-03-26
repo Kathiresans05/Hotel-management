@@ -23,6 +23,7 @@ import {
 import PageHeader from '../components/PageHeader';
 import { useTheme } from '../context/ThemeContext';
 import { cn } from '../utils/cn';
+import { useLanguage } from '../context/LanguageContext';
 
 const expenseCategories = [
   { id: 1, label: 'Utilities', icon: Zap, color: 'text-amber-500', bg: 'bg-amber-500/10' },
@@ -41,13 +42,14 @@ const initialExpenses = [
 ];
 
 const Expenses = () => {
+  const { t } = useLanguage();
   const { isDarkMode } = useTheme();
   const [activeCategory, setActiveCategory] = useState('All');
 
   const stats = [
-    { label: 'Monthly Budget', value: '₹85,000', used: '64%', color: 'bg-accent' },
-    { label: 'Total Expenses', value: '₹54,400', used: '100%', color: 'bg-blue-500' },
-    { label: 'Pending Bills', value: '₹3,200', used: '5%', color: 'bg-orange-500' },
+    { label: t('MONTHLY_BUDGET'), value: '₹85,000', used: '64%', color: 'bg-accent' },
+    { label: t('TOTAL_EXPENSES'), value: '₹54,400', used: '100%', color: 'bg-blue-500' },
+    { label: t('PENDING_BILLS'), value: '₹3,200', used: '5%', color: 'bg-orange-500' },
   ];
 
   const getCategoryIcon = (category) => {
@@ -73,8 +75,8 @@ const Expenses = () => {
   return (
     <div className="animate-in fade-in duration-500">
       <PageHeader 
-        title="Expense Tracker" 
-        subtitle="Manage and track all operational costs, utility bills, and facility maintenance expenses."
+        title={t('EXPENSE_TRACKER')} 
+        subtitle={t('EXPENSE_DESC')}
         actions={
           <div className="flex items-center gap-3">
              <div className={cn(
@@ -86,7 +88,7 @@ const Expenses = () => {
             </div>
             <button className="flex items-center px-4 py-2 bg-accent text-white rounded-2xl text-sm font-bold shadow-lg shadow-accent/20 hover:bg-accent-hover transition-all active:scale-95">
               <Plus className="w-4 h-4 mr-2" />
-              Add Expense
+              {t('ADD_EXPENSE')}
             </button>
           </div>
         }
@@ -118,9 +120,9 @@ const Expenses = () => {
            <div className="absolute top-0 right-0 w-24 h-24 bg-accent/20 rounded-bl-full -mr-6 -mt-6" />
            <div className="flex items-center gap-3 mb-2">
              <PieChartIcon className="text-accent w-5 h-5" />
-             <span className="text-xs font-bold text-accent uppercase tracking-widest">Monthly Outlook</span>
+             <span className="text-xs font-bold text-accent uppercase tracking-widest">{t('MONTHLY_OUTLOOK')}</span>
            </div>
-           <p className={cn("text-xl font-bold mb-1", isDarkMode ? "text-white" : "text-slate-900")}>Budget Alert</p>
+           <p className={cn("text-xl font-bold mb-1", isDarkMode ? "text-white" : "text-slate-900")}>{t('BUDGET_ALERT')}</p>
            <p className="text-xs text-slate-400 leading-relaxed font-medium">You have consumed 75% of the maintenance budget for this month.</p>
         </div>
       </div>
@@ -128,13 +130,13 @@ const Expenses = () => {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Category Filters */}
         <div className="w-full lg:w-64 shrink-0 space-y-2">
-           <h4 className="px-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Categories</h4>
+           <h4 className="px-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">{t('CATEGORIES')}</h4>
            {[
-             { id: 'All', label: 'All Expenses', icon: Receipt },
-             { id: 'Utilities', label: 'Utilities', icon: Zap },
-             { id: 'Maintenance', label: 'Maintenance', icon: Wrench },
-             { id: 'Supplies', label: 'Supplies', icon: Package },
-             { id: 'Security', label: 'Security', icon: ShieldCheck },
+             { id: 'All', label: t('ALL_EXPENSES'), icon: Receipt },
+             { id: 'Utilities', label: t('UTILITIES'), icon: Zap },
+             { id: 'Maintenance', label: t('MAINTENANCE'), icon: Wrench },
+             { id: 'Supplies', label: t('SUPPLIES'), icon: Package },
+             { id: 'Security', label: t('SECURITY'), icon: ShieldCheck },
            ].map((cat) => (
              <button
                key={cat.id}
@@ -161,7 +163,7 @@ const Expenses = () => {
             <Search className="w-4 h-4 text-slate-400 ml-2" />
             <input 
               type="text" 
-              placeholder="Search by vendor, title or ID..." 
+              placeholder={t('SEARCH_EXPENSES_PLACEHOLDER')} 
               className="bg-transparent border-none outline-none text-sm w-full py-1 text-slate-400 placeholder:text-slate-500"
             />
             <button className={cn(
@@ -169,7 +171,7 @@ const Expenses = () => {
               isDarkMode ? "text-slate-400" : "text-slate-500"
             )}>
               <Filter className="w-3.5 h-3.5" />
-              Filter
+              {t('FILTER')}
             </button>
           </div>
 
@@ -215,7 +217,7 @@ const Expenses = () => {
                     exp.status === 'Paid' ? "bg-emerald-500/10 text-emerald-500" : 
                     exp.status === 'Pending' ? "bg-orange-500/10 text-orange-500" : 
                     "bg-rose-500/10 text-rose-500"
-                  )}>{exp.status}</span>
+                  )}>{t(exp.status.toUpperCase())}</span>
                   <button className={cn(
                     "p-2.5 rounded-xl border border-transparent transition-all opacity-0 group-hover:opacity-100",
                     isDarkMode ? "bg-white/5 text-slate-400 hover:bg-white/10 hover:border-white/10" : "bg-slate-100 text-slate-500 hover:bg-slate-200"
